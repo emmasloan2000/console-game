@@ -4,33 +4,86 @@ import java.util.Scanner;
 
 public class Area {
 
-	public void offerOwnership(Player currentPlayer, Area area) {
+	private String areaName;
+	private int cost;
+	private boolean isOwned;
+	private Player owner;
+	private int devOwnedCounter;
+
+	public Area(String areaName, int cost) {
+		this.areaName = areaName;
+		this.cost = cost;
+		this.isOwned = false;
+		this.owner = null;
+		this.devOwnedCounter = 0;
+
+	}
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	public boolean isOwned() {
+		return isOwned;
+	}
+
+	public void setOwned(boolean isOwned) {
+		this.isOwned = isOwned;
+	}
+
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player player) {
+		this.owner = player;
+		this.isOwned = (player != null);
+	}
+
+	public int getDevOwnedCounter() {
+		return devOwnedCounter;
+	}
+
+	public void setDevOwnedCounter(int devOwnedCounter) {
+		this.devOwnedCounter = devOwnedCounter;
+	}
+
+	public void offerOwnership(Player currentPlayer) {
 
 		Scanner scanner = new Scanner(System.in);
 
 		// Checking player's money
-		if (currentPlayer.getCurrency() >= area.getCost()) {
-			System.out.println(currentPlayer.getName() + ", would you like to buy " + area.getName() + " for "
-					+ area.getCost() + "Volunteer Hours? Please enter y for yes, or n for no.");
+		if (currentPlayer.getCurrency() >= cost) {
+			System.out.println(currentPlayer.getName() + ", would you like to buy " + areaName + " for " + cost
+					+ "Volunteer Hours? Please enter y for yes, or n for no.");
 
 			String choice = scanner.next();
 			if (choice.equalsIgnoreCase("y")) {
 
-				// Deducting cost
-				int newCurrency = currentPlayer.getCurrency() - area.getCost();
-				currentPlayer.setCurrency(newCurrency);
+				// Deducting cost & setting ownership
+				currentPlayer.setCurrency(currentPlayer.getCurrency() - cost);
+				this.owner = currentPlayer;
+				this.isOwned = true;
 
-				// Setting ownership
-				area.setOwner(currentPlayer);
-				area.setIsOwned(true);
-
-				System.out.println(currentPlayer.getName() + ", you now own" + area.getName());
-				System.out.println("You now have " + newCurrency + " Volunteer Hours remaining.");
+				System.out.println(currentPlayer.getName() + ", you now own " + areaName);
+				System.out.println("You now have " + currentPlayer.getCurrency() + " Volunteer Hours remaining.");
 
 			} else if (choice.equalsIgnoreCase("n")) {
-				System.out.println("You have chosen not to buy " + area.getName());
+				System.out.println("You have chosen not to buy " + areaName);
 			} else {
-				System.out.println("Invalid imput. Please enter y or n.");
+				System.out.println("Invalid input. Please enter y or n.");
 			}
 		} else {
 			System.out.println("Sorry! You don't have enough volunteer hours to buy this area. Try again later!");
@@ -38,28 +91,40 @@ public class Area {
 
 	}
 
-	public void payRent(Player currentPlayer, Area area) {
+	public void payRent(Player currentPlayer) {
 
-		Player owner = area.getOwner();
+		Player owner = this.owner;
 
-		int rent = area.getCost()/ 10;
+		int developments = this.devOwnedCounter;
+		int rent;
 
-		System.out.println(currentPlayer.getName() + " landed on " + area.getName() + " and will volunteer " + rent
+		if (developments == 0) {
+			rent = cost / 10;
+		} else if (developments == 1) {
+			rent = cost * 40 / 100;
+		} else if (developments == 2) {
+			rent = cost * 70 / 100;
+		} else {
+			rent = cost;
+		}
+
+		System.out.println(currentPlayer.getName() + " landed on " + areaName + " and must volunteer " + rent
 				+ " Volunteer Hours to " + owner.getName());
 
-		if (currentPlayer.getCurrency() < rent) {
-			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
-					+ owner.getName() + "." + currentPlayer.getName() + ", you are out of the game.");
-		} else {
-			// Exchange of currency
+		if (currentPlayer.getCurrency() >= rent) {
+
 			currentPlayer.setCurrency(currentPlayer.getCurrency() - rent);
 			owner.setCurrency(owner.getCurrency() + rent);
-			
-			System.out.println(currentPlayer.getName() + " now has " + currentPlayer.getCurrency() + " Volunteer Hours.");
+
+			System.out
+					.println(currentPlayer.getName() + " now has " + currentPlayer.getCurrency() + " Volunteer Hours.");
 
 			System.out.println(owner.getName() + " now has " + owner.getCurrency() + " Volunteer Hours.");
-
+		} else {
+			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
+					+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
 		}
 
 	}
+
 }
