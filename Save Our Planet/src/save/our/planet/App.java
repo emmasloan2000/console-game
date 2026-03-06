@@ -93,7 +93,7 @@ public class App {
                             // Opportunity to buy or auction 
                             Utility.offerOwnership(currentPlayer, currentSquare);
                             if (currentSquare.getIsOwned() == false) {
-                                Utility.auctionOff(currentPlayer, currentSquare, players);
+                                Utility.auctionOff(currentPlayer, currentSquare, players, sc);
                             }
                         }
                     }
@@ -103,9 +103,9 @@ public class App {
                 // Allowed from anywhere on the board if requirements are met 
                 if (currentPlayer.ownsAllAreasInField(gameBoard) == true) {
                     if (currentPlayer.ownsAllDevelopments(gameBoard) == true) {
-                        Utility.askToBuyMajorDevelopment(currentPlayer, gameBoard); // [
+                        Utility.askToBuyMajorDevelopment(currentPlayer, gameBoard, sc); // [
                     } else {
-                        Utility.askToBuyDevelopment(currentPlayer, gameBoard); //
+                        Utility.askToBuyDevelopment(currentPlayer, gameBoard, sc); //
                     }
                 }
 
@@ -125,7 +125,7 @@ public class App {
                 }
 
             } else if (response.equalsIgnoreCase("f"))
-                Utility.handleForfeit(currentPlayer, players);
+                Utility.handleForfeit(currentPlayer, players, gameBoard);
             } else if (response.equalsIgnoreCase("p"))
             	Utility.displayStats(players);
                 System.out.println("game paused, enter any key to resume");
