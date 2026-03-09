@@ -94,7 +94,7 @@ public class App {
                             // Opportunity to buy or auction 
                             Utility.offerOwnership(currentPlayer, currentSquare);
                             if (currentSquare.getIsOwned() == false) {
-                                Utility.auctionOff(currentPlayer, currentSquare, players);
+                                Utility.auctionOff(currentPlayer, currentSquare, players, sc);
                             }
                         }
                     }
@@ -102,6 +102,7 @@ public class App {
 
                 // 4. DEVELOPMENT LOGIC
                 // Allowed from anywhere on the board if requirements are met 
+<<<<<<< HEAD
                 ArrayList<Field> fullFields = currentPlayer.getAllAreasInField();// returns list of fields the player owns all areas in
                 
                 if (!fullFields.isEmpty()) { 
@@ -109,8 +110,17 @@ public class App {
 
                     if (!fieldsWithAllDevelopments.isEmpty()) {
                         Utility.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments); // 
+=======
+                if (currentPlayer.ownsAllAreasInField(gameBoard) == true) {
+                    if (currentPlayer.ownsAllDevelopments(gameBoard) == true) {
+                        Utility.askToBuyMajorDevelopment(currentPlayer, gameBoard, sc); // [
+>>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
                     } else {
+<<<<<<< HEAD
                         Utility.askToBuyDevelopment(currentPlayer, fullFields); //
+=======
+                        Utility.askToBuyDevelopment(currentPlayer, gameBoard, sc); //
+>>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
                     }
                 }
 
@@ -129,9 +139,15 @@ public class App {
                     currentPlayerCount = 0;
                 }
 
+<<<<<<< HEAD
             } else if (response.equalsIgnoreCase("f")) {
                 Utility.handleForfeit(currentPlayer, players);
             } else if (response.equalsIgnoreCase("p")) {
+=======
+            } else if (response.equalsIgnoreCase("f"))
+                Utility.handleForfeit(currentPlayer, players, gameBoard);
+            } else if (response.equalsIgnoreCase("p"))
+>>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
             	Utility.displayStats(players);
                 System.out.println("game paused, enter any key to resume");
             	String holder = sc.next();
