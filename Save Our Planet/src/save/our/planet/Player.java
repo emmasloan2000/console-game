@@ -15,6 +15,7 @@ public class Player {
 	private ArrayList<Area> ownedAreas;
 	private ArrayList<Development> developments;
 	private int currency;
+	private int position;
 
 	public Player() {
 
@@ -61,7 +62,7 @@ public class Player {
 	/**
 	 * @param charityName the charity to set
 	 */
-	public void setCharity(String charityName) {
+	public void setCharity(Charity charityName) {
 		this.charity = charityName;
 	}
 
@@ -105,6 +106,20 @@ public class Player {
 	 */
 	public void setCurrency(int currency) {
 		this.currency = currency;
+	}
+	/**
+	 * getters for position
+	 * @return
+	 */
+	public int getPosition() {
+		return position;
+	}
+	/**
+	 * setters for position
+	 * @param position
+	 */
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	public boolean hasFunds(Area currentSquare) {
@@ -194,5 +209,7 @@ public class Player {
 
 		return false;
 	}
+
+
 
 }

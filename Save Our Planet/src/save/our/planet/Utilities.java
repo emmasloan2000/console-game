@@ -377,7 +377,7 @@ public class Utilities {
 		/*
 		 * displays dice roll
 		 */
-		public static int[] diceRoll() {
+		public static int diceRoll() {
 	 
 		    // Dice 1: normal 1–6
 		    int dice1 = random.nextInt(6) + 1;
