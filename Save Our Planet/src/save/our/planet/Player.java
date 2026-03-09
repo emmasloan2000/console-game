@@ -59,10 +59,10 @@ public class Player {
 	}
 
 	/**
-	 * @param charity the charity to set
+	 * @param charityName the charity to set
 	 */
-	public void setCharity(Charity charity) {
-		this.charity = charity;
+	public void setCharity(String charityName) {
+		this.charity = charityName;
 	}
 
 	/**

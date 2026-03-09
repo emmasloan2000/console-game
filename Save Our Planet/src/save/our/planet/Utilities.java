@@ -26,7 +26,7 @@ public class Utilities {
 		Player highestBidder = null;
 		
 		for (Player player : players) {
-			if (player.getCurrency <= 0) 
+			if (player.getCurrency() <= 0) 
 				continue;
 			
 			System.out.println(player.getName() + "enter your bid (or 0 to skip): ");
@@ -1136,6 +1136,13 @@ public class Utilities {
 		System.out.println(currentPlayer + " has landed on an area they already own.");
 
 	}
+
+
+
+
+
+
+
 
 	
 

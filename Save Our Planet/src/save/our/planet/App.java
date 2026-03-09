@@ -42,7 +42,7 @@ public class App {
 
             Player currentPlayer = players.get(currentPlayerCount);
             System.out.println("\nIt is " + currentPlayer.getName() + "'s turn.");
-            Utilities.displayIndivStats(currentPlayer);
+            Utilities.displayStats(currentPlayer);
 
             Utilities.askUserRoll(); // Prompt: "press r to roll" 
             String response = sc.nextLine();
