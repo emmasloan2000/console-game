@@ -1,6 +1,6 @@
 
 /**
-* -
+* 
 */
 package save.our.planet;
  
@@ -19,6 +19,7 @@ public class Area extends Square {
 	private int minorDevOwnedCounter;
 	private int majorDevOwnedCounter;
  
+	
 	/**
 	 * default constructor 
 	 */
