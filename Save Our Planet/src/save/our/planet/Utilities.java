@@ -113,6 +113,9 @@ public class Utilities {
 		} else {
 			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
 					+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
+			
+			currentPlayer.setOwnedAreas(null);
+			currentPlayer.setDevelopments(null);
 			players.remove(currentPlayer);
 		}
 	}
