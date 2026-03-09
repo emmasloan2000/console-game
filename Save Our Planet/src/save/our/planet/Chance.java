@@ -29,8 +29,8 @@ public class Chance {
 	public static void randomEffect2(Player currentPlayer) {
 
 		System.out.println(currentPlayer.getName() + " rolled a chance on both dice.");
-		applyRandomEffect1(currentPlayer);
-		applyRandomEffect1(currentPlayer);
+		randomEffect1(currentPlayer);
+		randomEffect1(currentPlayer);
 
 	}
 

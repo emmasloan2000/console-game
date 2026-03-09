@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /**
  * -
  */
@@ -111,7 +111,7 @@ package save.our.planet;
 
 import java.util.Scanner;
 
-public class Area {
+public class AreaClass {
 
 	private String areaName;
 	private int cost;
@@ -233,8 +233,8 @@ public class Area {
 			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
 					+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
 		}
-
->>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
+	}
+}
 	}
 
-}
+

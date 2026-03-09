@@ -57,14 +57,14 @@ public class App {
                 if (dice1 <= 6) {
                     totalRoll += dice1;
                 } else {
-                    Utilities.randomChance(currentPlayer); // Handle random effects 
+                   //randomChance(currentPlayer); // Handle random effects 
                 }
 
                 // Check Dice 2: Number vs. Chance Symbol 
                 if (dice2 <= 6) {
                     totalRoll += dice2;
                 } else {
-                    Utilities.randomChance(currentPlayer); // Handle random effects 
+                   // randomChance(currentPlayer); // Handle random effects 
                 }
 
                 // 2. MOVEMENT LOGIC 
