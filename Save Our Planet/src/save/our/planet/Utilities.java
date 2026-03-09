@@ -11,6 +11,112 @@ import java.util.Scanner;
  *
  */
 public class Utilities {
+	private static final int PASS_ACTIVATION_REWARD = 200;
+	private static final int LAND_ACTIVATION_REWARD = 500;
+	private static final int BOARD_SIZE = 12;
+	private static final int ACTIVATION_INDEX = 0;
+	private static final int GREEN_INDEX = 1;
+	private static final String AREA = "AREA";
+	private static final String GREEN = "GREEN";
+	private static final String ACTIVATION = "ACTIVATION";
+
+	/**
+	 * offer ownership
+	 * 
+	 * @param currentPlayer
+	 * @param scanner
+	 * @param currentArea
+	 */
+	public void offerOwnership(Player currentPlayer, Scanner scanner, Area currentArea) {
+
+		System.out.println(currentPlayer.getName() + ", would you like to buy " + currentArea.getName() + " for "
+				+ currentArea.getCost() + " Volunteer Hours? (y/n)");
+
+		while (true) {
+
+			String choice = scanner.next().trim();
+
+			if (choice.equalsIgnoreCase("y")) {
+
+				if (currentPlayer.getCurrency() >= currentArea.getCost()) {
+
+					// deduct cost and change ownership
+					currentPlayer.setCurrency(currentPlayer.getCurrency() - currentArea.getCost());
+					currentArea.setOwned(true);
+					currentArea.setOwner(currentPlayer);
+
+					System.out.println(currentPlayer.getName() + " now owns " + currentArea.getName());
+
+				} else {
+
+					System.out.println("Not enough funds to complete transaction.");
+
+				}
+
+				break;
+
+			} else if (choice.equalsIgnoreCase("n")) {
+
+				System.out.println("You chose not to buy " + currentArea.getName());
+				break;
+
+			} else {
+
+				System.out.println("Invalid input. Please enter y or n.");
+
+			}
+		}
+	}
+	
+	
+	/**
+	 * paying rent 
+	 * 
+	 * @param currentPlayer
+	 * @param currentArea
+	 */
+	public void payRent(Player currentPlayer, Area currentArea,ArrayList<Player> players) {
+		Player owner;
+		int developments = currentArea.getMinorDevOwnedCounter();
+		int majorDev = currentArea.getMajorDevOwnedCounter();
+		int rent;
+		currentArea.setOwner(owner);
+		
+
+		if (developments == 0) {
+			rent = currentArea.getCost() / 10;
+		} else if (developments == 1) {
+			rent = currentArea.getCost() * 40 / 100;
+		} else if (developments == 2) {
+			rent = currentArea.getCost() * 70 / 100;
+		} else if (developments == 3) {
+			if (majorDev == 0) {
+				rent = currentArea.getCost();
+			} else if (majorDev == 1){
+				rent = currentArea.getCost()*2;
+			}
+			
+		};
+
+		System.out.println(currentPlayer.getName() + " landed on " + currentArea.getName() + " and must volunteer " + rent
+				+ " Volunteer Hours to " + owner.getName());
+
+		if (currentPlayer.getCurrency() >= rent) {
+
+			currentPlayer.setCurrency(currentPlayer.getCurrency() - rent);
+			owner.setCurrency(owner.getCurrency() + rent);
+
+			System.out
+					.println(currentPlayer.getName() + " now has " + currentPlayer.getCurrency() + " Volunteer Hours.");
+
+			System.out.println(owner.getName() + " now has " + owner.getCurrency() + " Volunteer Hours.");
+		} else {
+			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
+					+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
+			players.remove(currentPlayer);
+		}
+	}
+
 	/**
 	 * 
 	 * @param newPosition
@@ -60,7 +166,8 @@ public class Utilities {
 		System.out.println("Auction starting for " + square.getName());
 
 		int highestBid = 0;
-		Player highestBidder = null;
+
+		Player highestBidder;
 
 		for (Player player : players) {
 			if (player.getCurrency() <= 0)
@@ -79,7 +186,7 @@ public class Utilities {
 			int newCurrency = highestBidder.getCurrency() - highestBid;
 			highestBidder.setCurrency(newCurrency);
 			square.setOwned(true);
-			square.setOwner(highestBidder);
+			Area.setOwner(highestBidder);
 
 			System.out.println(highestBidder.getName() + "wins the auction for " + highestBid);
 		} else {
@@ -88,7 +195,9 @@ public class Utilities {
 	}
 
 	/**
-	 * asking player if they want to buy a major developer if they own the other 3 minor developments 
+	 * asking player if they want to buy a major developer if they own the other 3
+	 * minor developments
+	 * 
 	 * @param p
 	 * @param board
 	 * @param scanner
@@ -174,8 +283,10 @@ public class Utilities {
 			System.out.println("Invalid input. Please enter y or n.");
 		}
 	}
+
 	/**
-	 * asking if a player lands on the development if they want to buy it 
+	 * asking if a player lands on the development if they want to buy it
+	 * 
 	 * @param p
 	 * @param board
 	 * @param scanner
@@ -254,9 +365,11 @@ public class Utilities {
 		}
 
 	}
-	
+
 	/**
-	 * showing the winner to screen once the game is over and a player has restored an area
+	 * showing the winner to screen once the game is over and a player has restored
+	 * an area
+	 * 
 	 * @param p
 	 */
 	public static void showWinnerScreen(Player p) {
@@ -279,9 +392,10 @@ public class Utilities {
 				""");
 
 	}
-	
+
 	/**
-	 * handle forfeit - player decides to forfeit and 
+	 * handle forfeit - player decides to forfeit and
+	 * 
 	 * @param p
 	 * @param players
 	 * @param board
@@ -335,15 +449,6 @@ public class Utilities {
 
 	private static final String[] CHARITIES = { "The Nature Conservancy", "WWF", "Green Peace",
 			"Friends of the Earth" };
-
-	private static final int PASS_ACTIVATION_REWARD = 200;
-	private static final int LAND_ACTIVATION_REWARD = 500;
-	private static final int BOARD_SIZE = 12;
-	private static final int ACTIVATION_INDEX = 0;
-	private static final int GREEN_INDEX = 1;
-	private static final String AREA = "AREA";
-	private static final String GREEN = "GREEN";
-	private static final String ACTIVATION = "ACTIVATION";
 
 	/*
 	 * displays game instructions
@@ -483,6 +588,11 @@ public class Utilities {
 		}
 	}
 
+	/**
+	 * gets the player name
+	 * 
+	 * @return
+	 */
 	public static String getPlayerName() {
 		String name;
 		while (true) {
@@ -498,6 +608,11 @@ public class Utilities {
 		return name;
 	}
 
+	/**
+	 * display's available game pieces
+	 * 
+	 * @param taken
+	 */
 	public static void displayAvailableGamePieces(boolean[] taken) {
 		System.out.println("\nChoose your token:");
 		for (int i = 0; i < EMOJI_GAME_PIECES.length; i++) {
@@ -506,6 +621,12 @@ public class Utilities {
 		}
 	}
 
+	/**
+	 * choosing the emoji token
+	 * 
+	 * @param taken
+	 * @return
+	 */
 	public static String chooseEmojiToken(boolean[] taken) {
 
 		while (true) {
@@ -536,6 +657,12 @@ public class Utilities {
 		}
 	}
 
+	/**
+	 * get the charity associated with the emoji
+	 * 
+	 * @param emoji
+	 * @return
+	 */
 	public static String getCharityForEmoji(String emoji) {
 
 		for (int i = 0; i < EMOJI_GAME_PIECES.length; i++) {
@@ -547,6 +674,12 @@ public class Utilities {
 		return "Unknown Charity"; // fallback (should never happen)
 	}
 
+	/**
+	 * adds the player
+	 * 
+	 * @param n
+	 * @return
+	 */
 	public static ArrayList<Player> addPlayers(int n) {
 
 		ArrayList<Player> players = new ArrayList<>();
@@ -568,6 +701,11 @@ public class Utilities {
 		return players;
 	}
 
+	/**
+	 * display statistics for the players
+	 * 
+	 * @param players
+	 */
 	public static void displayStats(ArrayList<Player> players) {
 
 		System.out.println("\n=========== STATS ===========");

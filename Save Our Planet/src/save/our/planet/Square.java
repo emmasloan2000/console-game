@@ -12,6 +12,7 @@ public class Square {
 	private int squareNumber;
 	private boolean isBlank;
 	private boolean isOwned;
+	//owner? // name of square
 
 	public Square() {
 
