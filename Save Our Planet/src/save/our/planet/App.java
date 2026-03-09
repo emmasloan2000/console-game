@@ -14,24 +14,24 @@ public class App {
         Scanner sc = new Scanner(System.in);
 
         // --- GAME INITIALIZATION ---
-        ArrayList<Square> squares = Utility.createBoard();
+        ArrayList<Square> squares = Utilities.createBoard();
         Board gameBoard = new Board(squares, 0, 0, 0, 0);
 
-        Utility.colourSettings(); // Requirement: Choice of color palett
-        int numOfPlayers = Utility.chooseNumOfPlayers(); // Requirement: 2-4 players
+        Utilities.colourSettings(); // Requirement: Choice of color palett
+        int numOfPlayers = Utilities.chooseNumOfPlayers(); // Requirement: 2-4 players
         sc.nextLine(); // Flush the scanner buffer 
 
-        ArrayList<Player> players = Utility.addPlayers(numOfPlayers);
+        ArrayList<Player> players = Utilities.addPlayers(numOfPlayers);
         for (int i = 0; i < players.size(); i++) {
-            String playerName = Utility.getPlayerName(); // Requirement: Input player names 
-            String charityName = Utility.getCharityName(); // Requirement: Represents a charity
+            String playerName = Utilities.getPlayerName(); // Requirement: Input player names 
+            String charityName = Utilities.getCharityName(); // Requirement: Represents a charity
             players.get(i).setName(playerName);
             players.get(i).setCharity(charityName);
             players.get(i).setCurrency(1500); // Requirement: Starting balance of 1500 hours 
         }
 
-        Utility.displayStats(players); // Show initial stats and balances 
-        Utility.displayInstructions(); // Requirement: Show aim and rules 
+        Utilities.displayStats(players); // Show initial stats and balances 
+        Utilities.displayInstructions(); // Requirement: Show aim and rules 
 
         int currentPlayerCount = 0;
         Player winner = null;
@@ -42,29 +42,29 @@ public class App {
 
             Player currentPlayer = players.get(currentPlayerCount);
             System.out.println("\nIt is " + currentPlayer.getName() + "'s turn.");
-            Utility.displayIndivStats(currentPlayer);
+            Utilities.displayIndivStats(currentPlayer);
 
-            Utility.askUserRoll(); // Prompt: "press r to roll" 
+            Utilities.askUserRoll(); // Prompt: "press r to roll" 
             String response = sc.nextLine();
 
             if (response.equalsIgnoreCase("r")) {
                 // 1. DICE ROLL & CHANCE LOGIC
-                int dice1 = Utility.diceRoll();
-                int dice2 = Utility.diceRoll();
+                int dice1 = Utilities.diceRoll();
+                int dice2 = Utilities.diceRoll();
                 int totalRoll = 0;
 
                 // Check Dice 1: Number vs. Chance Symbol
                 if (dice1 <= 6) {
                     totalRoll += dice1;
                 } else {
-                    Utility.randomChance(currentPlayer); // Handle random effects 
+                    Utilities.randomChance(currentPlayer); // Handle random effects 
                 }
 
                 // Check Dice 2: Number vs. Chance Symbol 
                 if (dice2 <= 6) {
                     totalRoll += dice2;
                 } else {
-                    Utility.randomChance(currentPlayer); // Handle random effects 
+                    Utilities.randomChance(currentPlayer); // Handle random effects 
                 }
 
                 // 2. MOVEMENT LOGIC 
@@ -73,28 +73,28 @@ public class App {
                     int newPosition = gameBoard.findNewPosition(oldPosition, totalRoll);
 
                     // Requirement: Receive donations for passing/landing on start 
-                    Utility.checkStartStatus(oldPosition, newPosition, currentPlayer);
+                    Utilities.checkStartStatus(oldPosition, newPosition, currentPlayer);
 
                     gameBoard.addPlayerToSquare(newPosition,currentPlayer);
                     currentPlayer.getChairty.setPosition(newPosition);
                     Square currentSquare = gameBoard.findPlayerSquare(newPosition);
-                    Utility.showBoard(newPosition,currentPlayer);//prints correspodning board image and text of where current player is
+                    Utilities.showBoard(newPosition,currentPlayer);//prints correspodning board image and text of where current player is
 
                     // 3. LANDING ACTIONS 
                     if (currentSquare.getIsBlank() == true) { // Green Zone logic 
-                        Utility.showBlankMessage();
+                        Utilities.showBlankMessage();
                     } else if (currentSquare.getIsOwned() == true) {
                         if (currentSquare.checkIfOwner(currentPlayer) == true) {
-                            Utility.showLandedOnOwnSquareMessage();
+                            Utilities.showLandedOnOwnSquareMessage();
                         } else {
-                            Utility.payRent(currentPlayer, currentSquare); // 10% volunteer hours 
+                            Utilities.payRent(currentPlayer, currentSquare); // 10% volunteer hours 
                         }
                     } else if (currentSquare.getIsOwned() == false) {
                         if (currentPlayer.hasFunds(currentSquare) == true) {
                             // Opportunity to buy or auction 
-                            Utility.offerOwnership(currentPlayer, currentSquare);
+                            Utilities.offerOwnership(currentPlayer, currentSquare);
                             if (currentSquare.getIsOwned() == false) {
-                                Utility.auctionOff(currentPlayer, currentSquare, players, sc);
+                                Utilities.auctionOff(currentPlayer, currentSquare, players, sc);
                             }
                         }
                     }
@@ -102,25 +102,25 @@ public class App {
 
                 // 4. DEVELOPMENT LOGIC
                 // Allowed from anywhere on the board if requirements are met 
-<<<<<<< HEAD
+
                 ArrayList<Field> fullFields = currentPlayer.getAllAreasInField();// returns list of fields the player owns all areas in
                 
                 if (!fullFields.isEmpty()) { 
                 	 ArrayList<Field> fieldsWithAllDevelopments = currentPlayer.getFieldsAllDevelopments(fullFields);
 
                     if (!fieldsWithAllDevelopments.isEmpty()) {
-                        Utility.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments); // 
-=======
+                        Utilities.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments); // 
+
                 if (currentPlayer.ownsAllAreasInField(gameBoard) == true) {
                     if (currentPlayer.ownsAllDevelopments(gameBoard) == true) {
-                        Utility.askToBuyMajorDevelopment(currentPlayer, gameBoard, sc); // [
->>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
+                        Utilities.askToBuyMajorDevelopment(currentPlayer, gameBoard, sc); // [
+
                     } else {
-<<<<<<< HEAD
-                        Utility.askToBuyDevelopment(currentPlayer, fullFields); //
-=======
-                        Utility.askToBuyDevelopment(currentPlayer, gameBoard, sc); //
->>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
+
+                        Utilities.askToBuyDevelopment(currentPlayer, fullFields); //
+
+                        Utilities.askToBuyDevelopment(currentPlayer, gameBoard, sc); //
+
                     }
                 }
 
@@ -128,7 +128,7 @@ public class App {
                 if (currentPlayer.ownsAllMajorDevelopments(fullFields) == true) {
                     gameOn = false;
                     winner = currentPlayer;
-                    Utility.showWinnerScreen(winner);
+                    Utilities.showWinnerScreen(winner);
                     break;
                 }
 
@@ -139,20 +139,20 @@ public class App {
                     currentPlayerCount = 0;
                 }
 
-<<<<<<< HEAD
+
             } else if (response.equalsIgnoreCase("f")) {
-                Utility.handleForfeit(currentPlayer, players);
+                Utilities.handleForfeit(currentPlayer, players);
             } else if (response.equalsIgnoreCase("p")) {
-=======
+
             } else if (response.equalsIgnoreCase("f"))
-                Utility.handleForfeit(currentPlayer, players, gameBoard);
+                Utilities.handleForfeit(currentPlayer, players, gameBoard);
             } else if (response.equalsIgnoreCase("p"))
->>>>>>> branch 'master' of git@gitlab.eeecs.qub.ac.uk:csc7053-2526/csc7053-2526-G11.git
-            	Utility.displayStats(players);
+
+            	Utilities.displayStats(players);
                 System.out.println("game paused, enter any key to resume");
             	String holder = sc.next();
 			} else if (response.equalsIgnoreCase("i")) {
-				Utility.displayInstructions();
+				Utilities.displayInstructions();
             	System.out.println("game paused, enter any key to resume");
             	String holder = sc.next();
 			}else {
