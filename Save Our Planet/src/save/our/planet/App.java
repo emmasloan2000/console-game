@@ -42,6 +42,7 @@ public class App {
 
             Player currentPlayer = players.get(currentPlayerCount);
             System.out.println("\nIt is " + currentPlayer.getName() + "'s turn.");
+            Utility.displayIndivStats(currentPlayer);
 
             Utility.askUserRoll(); // Prompt: "press r to roll" 
             String response = sc.nextLine();
@@ -68,14 +69,14 @@ public class App {
 
                 // 2. MOVEMENT LOGIC 
                 if (dice1 <= 6 || dice2 <= 6) {
-                    int oldPosition = currentPlayer.getPosition();
+                    int oldPosition = currentPlayer.getChairty.getLocation();
                     int newPosition = gameBoard.findNewPosition(oldPosition, totalRoll);
 
                     // Requirement: Receive donations for passing/landing on start 
                     Utility.checkStartStatus(oldPosition, newPosition, currentPlayer);
 
                     gameBoard.addPlayerToSquare(newPosition,currentPlayer);
-                    currentPlayer.setPosition(newPosition);
+                    currentPlayer.getChairty.setPosition(newPosition);
                     Square currentSquare = gameBoard.findPlayerSquare(newPosition);
                     Utility.showBoard(newPosition,currentPlayer);//prints correspodning board image and text of where current player is
 
@@ -101,16 +102,20 @@ public class App {
 
                 // 4. DEVELOPMENT LOGIC
                 // Allowed from anywhere on the board if requirements are met 
-                if (currentPlayer.ownsAllAreasInField(gameBoard) == true) {
-                    if (currentPlayer.ownsAllDevelopments(gameBoard) == true) {
-                        Utility.askToBuyMajorDevelopment(currentPlayer, gameBoard); // [
+                ArrayList<Field> fullFields = currentPlayer.getAllAreasInField();// returns list of fields the player owns all areas in
+                
+                if (!fullFields.isEmpty()) { 
+                	 ArrayList<Field> fieldsWithAllDevelopments = currentPlayer.getFieldsAllDevelopments(fullFields);
+
+                    if (!fieldsWithAllDevelopments.isEmpty()) {
+                        Utility.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments); // 
                     } else {
-                        Utility.askToBuyDevelopment(currentPlayer, gameBoard); //
+                        Utility.askToBuyDevelopment(currentPlayer, fullFields); //
                     }
                 }
 
                 // 5. WIN CONDITION CHECK 
-                if (currentPlayer.ownsAllMajorDevelopments(gameBoard) == true) {
+                if (currentPlayer.ownsAllMajorDevelopments(fullFields) == true) {
                     gameOn = false;
                     winner = currentPlayer;
                     Utility.showWinnerScreen(winner);
@@ -124,12 +129,18 @@ public class App {
                     currentPlayerCount = 0;
                 }
 
-            } else if (response.equalsIgnoreCase("f"))
+            } else if (response.equalsIgnoreCase("f")) {
                 Utility.handleForfeit(currentPlayer, players);
-            } else if (response.equalsIgnoreCase("p"))
+            } else if (response.equalsIgnoreCase("p")) {
             	Utility.displayStats(players);
                 System.out.println("game paused, enter any key to resume");
             	String holder = sc.next();
+			} else if (response.equalsIgnoreCase("i")) {
+				Utility.displayInstructions();
+            	System.out.println("game paused, enter any key to resume");
+            	String holder = sc.next();
+			}else {
+            	System.out.println("please enter a valid command");
 			}
 		} // End of while loop
 	} // End of main method
