@@ -17,7 +17,7 @@ public class App {
         ArrayList<Square> squares = Utility.createBoard();
         Board gameBoard = new Board(squares, 0, 0, 0, 0);
 
-        Utility.colourSettings(); // Requirement: Choice of color palette 
+        Utility.colourSettings(); // Requirement: Choice of color palett
         int numOfPlayers = Utility.chooseNumOfPlayers(); // Requirement: 2-4 players
         sc.nextLine(); // Flush the scanner buffer 
 
