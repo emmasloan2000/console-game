@@ -114,8 +114,15 @@ public class Utilities {
 			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
 					+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
 			
-			currentPlayer.setOwnedAreas(null);
-			currentPlayer.setDevelopments(null);
+			ArrayList<Area> previousAreas = currentPlayer.getOwnedAreas();
+
+			for (Area area : previousAreas) {
+			    area.setOwned(false);
+			    area.setDevelopments(null);
+			    area.setMajorDevOwnedCounter(0);
+			    area.setOwner(null);
+			}
+	
 			players.remove(currentPlayer);
 		}
 	}
