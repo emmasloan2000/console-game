@@ -24,8 +24,12 @@ public class Utilities {
 	 */
 	private static final String[] EMOJI_GAME_PIECES = { "🌳", "🐼", "🍀", "🌍" };
 
-	private static final String[] CHARITIES = { "The Nature Conservancy", "WWF", "Green Peace",
-			"Friends of the Earth" };
+	static final Charity[] CHARITIES = {
+		    new Charity(CharitySymbol.WAVE, 0),
+		    new Charity(CharitySymbol.ROSE, 0),
+		    new Charity(CharitySymbol.MOON, 0),
+		    new Charity(CharitySymbol.EARTH, 0)
+		};
 
 	private static final int PASS_ACTIVATION_REWARD = 200;
 	private static final int LAND_ACTIVATION_REWARD = 500;
@@ -579,28 +583,27 @@ public static final String RESET = "\033[0m";
 	 */
 	public static int diceRoll() {
 
-		// Dice 1: normal 1–6
-		int dice1 = random.nextInt(6) + 1;
+	    int dice1 = random.nextInt(7); // 0–6
+	    int dice2 = random.nextInt(7); // 0–6
 
-		// Dice 2: 1–5 or Chance (represented by 6)
-		int dice2 = random.nextInt(6) + 1;
+	    int totalMove = 0;
 
-		int totalMove = 0;
-		
+	    if (dice1 == 0) {
+	        System.out.println("Dice 1 rolled Chance!");
+	    } else {
+	        totalMove += dice1;
+	    }
 
-		// First dice always adds movement
-		totalMove += dice1;
+	    if (dice2 == 0) {
+	        System.out.println("Dice 2 rolled Chance!");
+	    } else {
+	        totalMove += dice2;
+	    }
 
-		// Second dice logic
-		if (dice2 == 6) {
-			System.out.println("You rolled: " + dice1 + " and Chance. You move forward " + totalMove + " spaces.");
-		} else {
-			totalMove += dice2;
-			System.out
-					.println("You rolled: " + dice1 + " and " + dice2 + ". You move forward " + totalMove + " spaces.");
-		}
+	    System.out.println("Dice rolled: " + dice1 + " and " + dice2);
+	    System.out.println("You move forward " + totalMove + " spaces.");
 
-		return totalMove;
+	    return totalMove;
 	}
 
 	/*
@@ -726,8 +729,7 @@ public static final String RESET = "\033[0m";
 				return CHARITIES[i];
 			}
 		}
-
-		return "Unknown Charity"; // fallback (should never happen)
+		return null; 
 	}
 	
 	/**
@@ -737,32 +739,26 @@ public static final String RESET = "\033[0m";
 	 */
 	public static ArrayList<Player> addPlayers(int n) {
 
-		ArrayList<Player> players = new ArrayList<>();
-		boolean[] taken = new boolean[EMOJI_GAME_PIECES.length];
+	    ArrayList<Player> players = new ArrayList<>();
+	    boolean[] taken = new boolean[EMOJI_GAME_PIECES.length];
 
-		for (int i = 1; i <= n; i++) {
-			System.out.println("\n--- Player " + i + " Setup ---");
-			
-			Player player = new Player();
-			 
-			String name = getPlayerName(); 
-			String emoji = chooseEmojiToken(taken); 
-			Charity charity = getCharityForEmoji(emoji); 
-			
-			player.setName(name);
-			player.setCharity(charity);
-			player.setOwnedAreas(null);
-			player.setDevelopments(null);
-			player.setPosition(n);
-			player.setCurrency(1500);
-			player.setPosition(1);
-		
-			players.add(player);
+	    for (int i = 1; i <= n; i++) {
+	        System.out.println("\n--- Player " + i + " Setup ---");
 
-			System.out.println("✅ " + name + " chose " + emoji + " → " + charity);
-		}
+	        String name = getPlayerName();
+	        String emoji = chooseEmojiToken(taken);
+	        Charity charity = getCharityForEmoji(emoji);
 
-		return players;
+	        Player player = new Player(name, charity, new ArrayList<>(), new ArrayList<>(), 1500);
+
+	        player.setPosition(1);
+
+	        players.add(player);
+
+	        System.out.println("Player " + i + ": " + name + " " + emoji + " | Charity: " + charity);
+	    }
+
+	    return players;
 	}
 
 	/**
@@ -771,14 +767,14 @@ public static final String RESET = "\033[0m";
 	 */
 	public static void displayStats(ArrayList<Player> players) {
 
-		System.out.println("\n=========== STATS ===========");
-		for (Player p : players) {
-			System.out.println(p.getName() + " | Charity: " + p.getCharity() + " | Hours: "
-					+ p.getCurrency() + " | Position: " + p.getPosition());
-		}
-		System.out.println("=============================\n");
-	}
+	    System.out.println("\n=========== PLAYER STATS ===========");
 
+	    for (Player p : players) {
+	    		System.out.println("Name: " + p.getName() +" Charity: " + p.getCharity().getIcon() +" | Volunteering Hours: " 
+	    		+ p.getCurrency() +" | Position: " + p.getPosition()
+	        );
+	    }
+	}
 	
 	/**
 	 * check start status 
@@ -789,13 +785,15 @@ public static final String RESET = "\033[0m";
 	public static void checkStartStatus(int oldPos, int newPos, Player p) {
 
 		if (newPos == ACTIVATION_INDEX) {
-			int currency = p.getCurrency()+LAND_ACTIVATION_REWARD;
-			p.setCurrency(currency);
-			System.out.println("Landed on Activation Zone: +" + LAND_ACTIVATION_REWARD);
+			int newHours = p.getCurrency()+LAND_ACTIVATION_REWARD;
+			p.setCurrency(newHours);
+			System.out.println(p.getName() + " landed on Activation Zone and gained " 
+					+ LAND_ACTIVATION_REWARD + " volunteering hours.");
 		} else if (newPos < oldPos) {
-			int currency = p.getCurrency()+PASS_ACTIVATION_REWARD;
-			p.setCurrency(currency);
-			System.out.println("Passed Activation Zone: +" + PASS_ACTIVATION_REWARD);
+			int newHours = p.getCurrency()+PASS_ACTIVATION_REWARD;
+			p.setCurrency(newHours);
+			System.out.println(p.getName() + " passed Activation Zone and gained " 
+					+ PASS_ACTIVATION_REWARD + " volunteering hours.");
 		}
 	}
 
