@@ -361,7 +361,7 @@ public class Utilities {
 
 						int updatedCount = area.getMinorDevOwnedCounter();
 						developments++;
-						area.setMinorDevOwnedCounter(ownedCount);
+						area.setMinorDevOwnedCounter(developmnets++);
 
 						System.out.println("Development successful!");
 
@@ -524,14 +524,13 @@ public class Utilities {
 		int dice2 = random.nextInt(6) + 1;
 
 		int totalMove = 0;
-		int chanceCount = 0;
+		
 
 		// First dice always adds movement
 		totalMove += dice1;
 
 		// Second dice logic
 		if (dice2 == 6) {
-			chanceCount++;
 			System.out.println("You rolled: " + dice1 + " and Chance. You move forward " + totalMove + " spaces.");
 		} else {
 			totalMove += dice2;
@@ -539,7 +538,7 @@ public class Utilities {
 					.println("You rolled: " + dice1 + " and " + dice2 + ". You move forward " + totalMove + " spaces.");
 		}
 
-		return new int[] { totalMove, chanceCount };
+		return totalMove;
 	}
 
 	/*
@@ -658,7 +657,7 @@ public class Utilities {
 	 * @param emoji
 	 * @return
 	 */
-	public static String getCharityForEmoji(String emoji) {
+	public static Charity getCharityForEmoji(String emoji) {
 
 		for (int i = 0; i < EMOJI_GAME_PIECES.length; i++) {
 			if (EMOJI_GAME_PIECES[i].equals(emoji)) {
@@ -681,13 +680,22 @@ public class Utilities {
 
 		for (int i = 1; i <= n; i++) {
 			System.out.println("\n--- Player " + i + " Setup ---");
-
-			String name = getPlayerName(); // you already have this
-			String emoji = chooseEmojiToken(taken); // you already have this
-			String charity = getCharityForEmoji(emoji); // you already have this
-
-			Player p = new Player(name, emoji, charity);
-			players.add(p);
+			
+			Player player = new Player();
+			 
+			String name = getPlayerName(); 
+			String emoji = chooseEmojiToken(taken); 
+			Charity charity = getCharityForEmoji(emoji); 
+			
+			player.setName(name);
+			player.setCharity(charity);
+			player.setOwnedAreas(null);
+			player.setDevelopments(null);
+			player.setPosition(n);
+			player.setCurrency(1500);
+			player.setPosition(1);
+		
+			players.add(player);
 
 			System.out.println("✅ " + name + " chose " + emoji + " → " + charity);
 		}
@@ -703,8 +711,8 @@ public class Utilities {
 
 		System.out.println("\n=========== STATS ===========");
 		for (Player p : players) {
-			System.out.println(p.getName() + " " + p.getEmoji() + " | Charity: " + p.getCharity() + " | Hours: "
-					+ p.getVolunteeringHours() + " | Position: " + p.getPosition());
+			System.out.println(p.getName() + " | Charity: " + p.getCharity() + " | Hours: "
+					+ p.getCurrency() + " | Position: " + p.getPosition());
 		}
 		System.out.println("=============================\n");
 	}
@@ -719,10 +727,12 @@ public class Utilities {
 	public static void checkStartStatus(int oldPos, int newPos, Player p) {
 
 		if (newPos == ACTIVATION_INDEX) {
-			p.addVolunteeringHours(LAND_ACTIVATION_REWARD);
+			int currency = p.getCurrency()+LAND_ACTIVATION_REWARD;
+			p.setCurrency(currency);
 			System.out.println("Landed on Activation Zone: +" + LAND_ACTIVATION_REWARD);
 		} else if (newPos < oldPos) {
-			p.addVolunteeringHours(PASS_ACTIVATION_REWARD);
+			int currency = p.getCurrency()+PASS_ACTIVATION_REWARD;
+			p.setCurrency(currency);
 			System.out.println("Passed Activation Zone: +" + PASS_ACTIVATION_REWARD);
 		}
 	}
@@ -757,7 +767,9 @@ public class Utilities {
 	
 	
 	
-	
+	/**
+	 * squares
+	 */
 	private static final String[] squares = { " Square 1: The Activation Zone", " Square 2: The Green Zone",
 			" Square 3: The North Pole", " Square 4: The Atlantic Ocean", " Square 5: The Amazon Rainforest",
 			" Square 6: The Pacific Ocean", " Square 7: Dehli, India", " Square 8: The Sumatran Rainforest",

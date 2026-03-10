@@ -8,7 +8,7 @@ package save.our.planet;
  */
 public enum CharitySymbol {
 	
-	WAVE("🌊"),ROSE("🌷"),MOON("🌙"),EARTH("🌎");
+	WAVE("🌊"),ROSE("🌷"),MOON("🌙"),EARTH("🌎") ;
 	
 	private final String emoji;
 
