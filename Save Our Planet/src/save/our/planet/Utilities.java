@@ -122,7 +122,6 @@ public class Utilities {
 			    area.setMajorDevOwnedCounter(0);
 			    area.setOwner(null);
 			}
-	
 			players.remove(currentPlayer);
 		}
 	}
