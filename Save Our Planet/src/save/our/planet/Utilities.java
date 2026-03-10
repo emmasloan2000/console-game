@@ -36,6 +36,69 @@ public class Utilities {
 	private static final String GREEN = "GREEN";
 	private static final String ACTIVATION = "ACTIVATION";
 
+public static final String RESET = "\033[0m";
+	
+    public static final String CYAN_BACKGROUND_BRIGHT = "\033[106m";
+    public static final String BLACK_BACKGROUND = "\033[40m";
+    public static final String RED_BACKGROUND_BRIGHT = "\033[101m";
+    public static final String BLUE_BACKGROUND = "\033[44m";
+    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[103m";
+    
+    public static final String BLUE = "\033[34m";
+    public static final String GREEN_BRIGHT = "\033[92m";
+    public static final String WHITE_BRIGHT = "\033[97m";
+    public static final String PURPLE_BRIGHT = "\033[95m";
+    public static final String BLACK = "\033[30m";
+	
+	public static void colourSettings (Scanner sc) {
+		
+		boolean check = true;
+		
+		while(check) {
+		check=false;
+		System.out.println("pick colour settings");
+
+		System.out.println(CYAN_BACKGROUND_BRIGHT + BLUE + " AQUA     type'a'" + RESET);
+		System.out.println(BLACK_BACKGROUND + GREEN_BRIGHT + " RETRO    type'r'" + RESET);
+		System.out.println(RED_BACKGROUND_BRIGHT + WHITE_BRIGHT + " BOLD     type'b'" + RESET);
+		System.out.println(BLUE_BACKGROUND + PURPLE_BRIGHT + " POP      type'p'" + RESET);
+		System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK + " CLEAN    type'c'" + RESET);
+
+		String choice = sc.nextLine();
+		switch (choice.toLowerCase()) {
+		case "a": {
+			System.out.println(CYAN_BACKGROUND_BRIGHT + BLUE + " AQUA selected");
+			break;
+		}
+		case "r": {
+			System.out.println(BLACK_BACKGROUND + GREEN_BRIGHT + " RETRO selected");
+			break;
+		}
+		case "b": {
+			System.out.println(RED_BACKGROUND_BRIGHT + WHITE_BRIGHT + " BOLD selected");
+			break;
+		}
+		case "p": {
+			System.out.println(BLUE_BACKGROUND + PURPLE_BRIGHT + " POP selected");
+			break;
+		}
+		case "c": {
+			System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK + " CLEAN selected");
+			break;
+		}
+		case "n": {
+			System.out.println(RESET);
+			break;
+		}
+		default:
+			System.out.println("invalid input");
+			check=true;
+		}
+		
+		}
+	}
+
+	
 	/**
 	 * offer ownership
 	 * 
