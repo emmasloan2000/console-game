@@ -13,6 +13,7 @@ public class Development {
 	private String description;
 	private boolean isMajorDevelopment;
 	private Player owner;
+	private String name;
 
 	public Development() {
 
@@ -24,13 +25,14 @@ public class Development {
 	 * @param description
 	 * @param isMajorDevelopmen
 	 */
-	public Development(int cost, String title, String description, boolean isMajorDevelopment, Player isBought) {
+	public Development(int cost, String title, String description, boolean isMajorDevelopment, Player isBought, String name) {
 		super();
 		this.cost = cost;
 		this.title = title;
 		this.description = description;
 		this.isMajorDevelopment = isMajorDevelopment;
 		this.owner = isBought;
+		this.name = name;
 	}
 
 	/**
@@ -101,6 +103,20 @@ public class Development {
 	 */
 	public void setOwner(Player isBought) {
 		this.owner = isBought;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

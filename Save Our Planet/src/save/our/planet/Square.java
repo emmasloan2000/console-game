@@ -12,7 +12,7 @@ public class Square {
 	private int squareNumber;
 	private boolean isBlank;
 	private boolean isOwned;
-	//owner? // name of square
+	private String name;
 
 	public Square() {
 
@@ -24,12 +24,13 @@ public class Square {
 	 * @param isBlank
 	 * @param isOwned
 	 */
-	public Square(Field field, int squareNumber, boolean isBlank, boolean isOwned) {
+	public Square(Field field, int squareNumber, boolean isBlank, boolean isOwned, String name) {
 		super();
 		this.field = field;
 		this.squareNumber = squareNumber;
 		this.isBlank = isBlank;
 		this.isOwned = isOwned;
+		this.name = name;
 	}
 
 	/**
@@ -86,6 +87,20 @@ public class Square {
 	 */
 	public void setField(Field field) {
 		this.field = field;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
