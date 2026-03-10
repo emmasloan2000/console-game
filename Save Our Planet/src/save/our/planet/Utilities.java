@@ -253,19 +253,18 @@ public class Utilities {
 
 				if (areaName.equalsIgnoreCase(areaChoice)) {
 					areaFound = true;
-
 					ArrayList<Development> developmentAlreadyOwned = p.getDevelopments();
-
+					
 					boolean areaAlreadyDeveloped = false;
-					for (Development d : developmentAlreadyOwned) {
+					
 						if ((area.getMinorDevOwnedCounter() == 3 )&& (area.getMajorDevOwnedCounter()==1)) {
 							areaAlreadyDeveloped = true;
 							System.out.println("This area already has a major development. Please choose another");
 							break;
 						}
-					}
+			
 
-					if (areaAlreadyDeveloped) {
+					if (areaAlreadyDeveloped == true) {
 						break; // Exit the loop since area already developed
 					}
 
@@ -360,8 +359,8 @@ public class Utilities {
 						p.setCurrency(newCurrency);
 
 						int updatedCount = area.getMinorDevOwnedCounter();
-						developments++;
-						area.setMinorDevOwnedCounter(developmnets++);
+						ownedCount++;
+						area.setMinorDevOwnedCounter(ownedCount);
 
 						System.out.println("Development successful!");
 
