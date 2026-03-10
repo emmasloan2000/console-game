@@ -36,7 +36,7 @@ public class Chance {
 
 	// Move player
 	public static void movePlayer(Player currentPlayer, int steps, Board board) {
-		int newPos = Board.findNewPosition(currentPlayer.getPosition(), steps);
+		int newPos = board.findNewPosition(currentPlayer.getPosition(), steps);
 		currentPlayer.setPosition(newPos);
 		
 		Square currentSquare = board.findPlayerSquare(newPos);

@@ -249,34 +249,132 @@ public static final String RESET = "\033[0m";
 	 */
 	public static void auctionOff(Player p, Square square, ArrayList<Player> players, Scanner scanner) {
 
-		System.out.println("Auction starting for " + square.getName());
+		System.out.println("Dice roll starting for " + square.getName() + ".  Highest dice roll can purchase the area! 🎉");
 
-		int highestBid = 0;
-		Player highestBidder;
+		int highestRoll = 0;
+		ArrayList<Player> highestRollers = new ArrayList<Player>();
+		Area areaForSale = (Area) square;
 
 		for (Player player : players) {
-			if (player.getCurrency() <= 0)
+			if (player.getCurrency() < areaForSale.getCost()) {
+				System.out.println(player.getName() + ", you don't have enough volunteer hours to buy this area ☹️");
 				continue;
-
-			System.out.println(player.getName() + "enter your bid (or 0 to skip): ");
-			int bid = scanner.nextInt();
-
-			if (bid > highestBid && player.getCurrency() >= bid) {
-				highestBid = bid;
-				highestBidder = player;
 			}
-		}
+			boolean validEntry = false;
+	        while (!validEntry) {
 
-		if (highestBidder != null) {
-			int newCurrency = highestBidder.getCurrency() - highestBid;
-			highestBidder.setCurrency(newCurrency);
-			square.setIsOwned(true);
-			square.setOwner(highestBidder);
-
-			System.out.println(highestBidder.getName() + "wins the auction for " + highestBid);
-		} else {
-			System.out.println("No one bid. Area remains unowned");
+			System.out.println(player.getName() + " If you want a chance to but his square, enter r to roll the dice. \nIf you don't want to but this area press n: ");
+			String decision = scanner.next();
+			
+			int currentRoll = 0;
+			if (decision.equalsIgnoreCase("r")) {
+				currentRoll = diceRollForAuctionOff();
+		
+				if (currentRoll > highestRoll ) {
+					highestRoll = currentRoll;
+					highestRollers.clear();
+					highestRollers.add(player);
+					System.out.println(player.getName() + ", you rolled a " + highestRoll + ". You are currently the highest roller!");
+				
+				} else if (currentRoll < highestRoll) {
+					System.out.println(player.getName() + ", you rolled a " + currentRoll + ". You have lost the dice roll. ☹️ Better luck next time️");
+				
+				}else if (currentRoll == highestRoll) {
+					highestRollers.add(player);
+					System.out.println(player.getName() + ", you rolled a " + currentRoll + ". You are currently tied for highestRoller!");
+				}
+				validEntry = true;
+			
+			
+			} else if (decision.equalsIgnoreCase("n")) {
+				System.out.println(player.getName() + "has opted out.");
+				validEntry = true;
+			} else {
+				System.out.println("Invalid input, please try again");
+			} 
+			
+	        }
+	        
 		}
+	
+	    while (highestRollers.size() > 1) {
+	        System.out.println("\n--- 🤝 TIE BREAKER! ---");
+	        System.out.print("The following players are tied: ");
+	        for (Player tp : highestRollers) {
+	        	System.out.print(tp.getName() + " ");
+	        }
+	        System.out.println("\nOnly these players will roll again.");
+
+	        int tieHighRoll = 0;
+	        ArrayList<Player> tieWinners = new ArrayList<>();
+
+	        for (Player tiedPlayer : highestRollers) {
+	            boolean validTieRoll = false;
+	            while (!validTieRoll) {
+	                System.out.print(tiedPlayer.getName() + ", press 'r' to roll for the tie-breaker: ");
+	                String tieDecision = scanner.next();
+	                
+	                if (tieDecision.equalsIgnoreCase("r")) {
+	                    int roll = diceRollForAuctionOff();
+	                    System.out.println(tiedPlayer.getName() + " rolled a 🎲: " + roll);
+
+	                    if (roll > tieHighRoll) {
+	                        tieHighRoll = roll;
+	                        tieWinners.clear();
+	                        tieWinners.add(tiedPlayer);
+	                    } else if (roll == tieHighRoll && tieHighRoll > 0) {
+	                        tieWinners.add(tiedPlayer);
+	                    }
+	                    validTieRoll = true;
+	                } else {
+	                    System.out.println("❌ Invalid! You must roll 'r' to continue the tie-breaker.");
+	                }
+	            }
+	        }
+	       
+	        highestRollers = tieWinners;
+	    }
+
+	  
+	    System.out.println("\n--- FINAL RESULTS ---");
+	    if (highestRollers.size() == 1) {
+	        Player winner = highestRollers.get(0);
+	        System.out.println("The winner is " + winner.getName() + "! 🏆");
+	        
+	        
+	        winner.setCurrency(winner.getCurrency() - areaForSale.getCost());
+	        winner.getOwnedAreas().add(areaForSale);
+	        areaForSale.setOwner(winner);
+	        
+	        System.out.println(winner.getName() + " paid " + areaForSale.getCost() + " volunteer hours.");
+	        System.out.println(winner.getName() + " now owns " + areaForSale.getName() + "!");
+	    } else {
+	        System.out.println("No one purchased the area. Auction closed.");
+	    }
+	}
+		
+
+	
+	public static int diceRollForAuctionOff() {
+
+		int dice1 = random.nextInt(7) + 1;
+
+		int dice2 = random.nextInt(7) + 1;
+
+		int totalMove = 0;
+		
+		if (dice1 <= 6 && dice2 <=6) {
+			totalMove = dice1 + dice2;
+		} else if (dice1 > 6 && dice2 > 6) {
+			totalMove = 0;
+		} else if (dice1 > 6 && dice2 <= 6 ) {
+			totalMove = dice2;
+		}else if (dice1 <= 6 && dice2 > 6) {
+			totalMove = dice1;
+		}
+		
+
+		return totalMove;
 	}
 	
 	
@@ -286,85 +384,67 @@ public static final String RESET = "\033[0m";
 	 * @param board
 	 * @param scanner
 	 */
-	public static void askToBuyMajorDevelopment(Player p, Board board, Scanner scanner) {
-		ArrayList<Area> ownedAreas = p.getOwnedAreas();
-
-		String choice = "";
-
-		while (true) {
-			System.out.println(p.getName() + ", you own all the areas in a field!"
-					+ " Would you like to carry out a development? If yes, enter y. If no, enter n: ");
-
-			choice = scanner.next();
-
-			if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("n")) {
-				break; // exit loop once valid
-			} else {
-				System.out.println("Invalid input. Please enter y or n.");
-			}
-		}
-
-		boolean areaFound = false;
-
-		if (choice.equalsIgnoreCase("y")) {
-
-			System.out.println("Enter the name of the area you would like to develop: ");
-			String areaChoice = scanner.next();
-
-			for (Area area : ownedAreas) {
-				String areaName = area.getName();
-
-				if (areaName.equalsIgnoreCase(areaChoice)) {
-					areaFound = true;
-					ArrayList<Development> developmentAlreadyOwned = p.getDevelopments();
-					
-					boolean areaAlreadyDeveloped = false;
-					
-						if ((area.getMinorDevOwnedCounter() == 3 )&& (area.getMajorDevOwnedCounter()==1)) {
-							areaAlreadyDeveloped = true;
-							System.out.println("This area already has a major development. Please choose another");
-							break;
+	public static void askToBuyMajorDevelopment(Player p, ArrayList<Field> fieldsWithAllDevelopments, Scanner scanner) {
+		
+	
+		ArrayList<Area> eligibleAreas = new ArrayList<Area>();
+		ArrayList<Development> availableMajorDevs = new ArrayList<Development>();
+		
+		for (Field field : fieldsWithAllDevelopments) {
+			ArrayList<Area> areasInField = field.getAreas();
+			for (Area area : areasInField) {
+				ArrayList<Development> developmentsInArea = area.getDevelopments();
+				for (Development development : developmentsInArea) {
+					if (development.isMajorDevelopment() == true) {
+						int price = development.getCost();
+						if (development.getOwner() == null) {
+							if (p.getCurrency() >= price) {
+								eligibleAreas.add(area);
+								availableMajorDevs.add(development);
+						
+							}
 						}
-			
-
-					if (areaAlreadyDeveloped == true) {
-						break; // Exit the loop since area already developed
-					}
-
-					Development development = area.getDevelopments().stream().filter(Development::isMajorDevelopment)
-							.findFirst().orElse(null);
-
-					if (development == null) {
-						System.out.println("No major development available.");
-						break;
-					}
-
-					if (p.getCurrency() >= development.getCost()) {
-						int newCurrency = p.getCurrency() - development.getCost();
-						p.setCurrency(newCurrency);
-
-						int developments = area.getMajorDevOwnedCounter();
-						developments++;
-						area.setMajorDevOwnedCounter(developments);
-
-						System.out.println("Major development successful!");
-					} else {
-						System.out.println(
-								"Sorry! You don't have enough volunteer hours to carry out a major development right now. Try again later!");
-					}
-					break; // Exit loop after processing the area choice
+						
 				}
 			}
-
-			if (!areaFound) {
-				System.out.println("Area not found among your owned areas. Please try again.");
-			}
-
-		} else if (choice.equalsIgnoreCase("n")) {
-			System.out.println("Maybe next time.");
-		} else {
-			System.out.println("Invalid input. Please enter y or n.");
 		}
+	}		
+				
+				if (eligibleAreas.isEmpty()) {
+					System.out.println("\n" + p.getName() + ", you don't have enough volunteer hours or eligible areas for a Major Development right now.");
+					return;
+				}
+				System.out.print("\n" + p.getName() + "Would you like to carry out a major development? If yes, enter y. If no, enter n: ");
+				String answer = scanner.next();
+				scanner.nextLine();
+				if (answer.equalsIgnoreCase("y")) {
+					System.out.println("\n--- 🏗️ MAJOR DEVELOPMENT MENU ---");
+				    System.out.println("Select an area to upgrade to a Major Development:");
+					for (int i = 0; i < eligibleAreas.size(); i++) {
+						Area currentArea = eligibleAreas.get(i);
+						Development majorDev = availableMajorDevs.get(i);
+						System.out.println("\n" + (i+1) + ". " + currentArea.getName() );
+						System.out.println("  Major Development name: "+ majorDev.getName());
+						System.out.println("  Cost: " + majorDev.getCost());
+						System.out.println("  Description: " + majorDev.getDescription());
+					}
+					System.out.println("Select the number that corresponds with the area you would like to develop: ");
+					int choice = scanner.nextInt();
+					
+					if (choice > 0 && choice <= eligibleAreas.size()) {
+						Area selectedArea = eligibleAreas.get(choice - 1);
+						Development selectedDev = availableMajorDevs.get(choice - 1);
+						p.setCurrency((p.getCurrency() - selectedDev.getCost()));
+						selectedDev.setOwner(p);
+						p.getDevelopments().add(selectedDev);
+						selectedArea.setMajorDevOwnedCounter(selectedArea.getMajorDevOwnedCounter() + 1);
+						
+						System.out.println("🎉 Success! Development complete.");
+						
+						
+					}
+				}
+				
 	}
 
 	/**
@@ -373,78 +453,67 @@ public static final String RESET = "\033[0m";
 	 * @param board
 	 * @param scanner
 	 */
-	public static void askToBuyDevelopment(Player p, Board board, Scanner scanner) {
+	public static void askToBuyDevelopment(Player p, ArrayList<Field> fullFields, Scanner scanner) {
+		
 
-		ArrayList<Area> ownedAreas = p.getOwnedAreas();
-
-		String choice = "";
-
-		while (true) {
-			System.out.println(p.getName() + ", you own all the areas in a field!"
-					+ " Would you like to carry out a development? If yes, enter y. If no, enter n: ");
-
-			choice = scanner.next();
-
-			if (choice.equalsIgnoreCase("y") || choice.equalsIgnoreCase("n")) {
-				break; // exit loop once valid
-			} else {
-				System.out.println("Invalid input. Please enter y or n.");
-			}
-		}
-
-		if (choice.equalsIgnoreCase("y")) {
-
-			System.out.println("Enter the name of the area you would like to develop: ");
-			String areaChoice = scanner.next();
-			boolean areaFound = false;
-
-			for (Area area : ownedAreas) {
-				String areaName = area.getName();
-
-				if (areaName.equalsIgnoreCase(areaChoice)) {
-					areaFound = true;
-
-					int ownedCount = area.getMinorDevOwnedCounter(); // How many developments already owned
-					ArrayList<Development> developments = area.getDevelopments();
-
-					if (ownedCount >= developments.size()) {
-						System.out.println("You already own all developments on this area.");
-						break;
-					}
-
-					Development nextDevelopment = developments.get(ownedCount);
-					System.out.println("Next available development: " + nextDevelopment.getTitle());
-					System.out.println("Description: " + nextDevelopment.getDescription());
-					System.out.println("Cost: " + nextDevelopment.getCost());
-
-					if (p.getCurrency() >= nextDevelopment.getCost()) {
-						int newCurrency = p.getCurrency() - nextDevelopment.getCost();
-						p.setCurrency(newCurrency);
-
-						int updatedCount = area.getMinorDevOwnedCounter();
-						ownedCount++;
-						area.setMinorDevOwnedCounter(ownedCount);
-
-						System.out.println("Development successful!");
-
-					} else {
-						System.out.println(
-								"Sorry! You don't have enough volunteer hours to carry out a development right now. Try again later!");
-					}
-					break;
+		ArrayList<Area> eligibleAreas = new ArrayList<Area>();
+		ArrayList<Development> availableDevs = new ArrayList<Development>();
+		
+		for (Field field : fullFields) {
+			ArrayList<Area> areasInField = field.getAreas();
+			for (Area area : areasInField) {
+				ArrayList<Development> developmentsInArea = area.getDevelopments();
+				for (Development development : developmentsInArea) {
+					if (development.isMajorDevelopment() == false) {
+						int price = development.getCost();
+						if (development.getOwner() == null) {
+							if (p.getCurrency() >= price) {
+								eligibleAreas.add(area);
+								availableDevs.add(development);
+						
+							} break;
+						}
+						
 				}
 			}
-
-			if (!areaFound) {
-				System.out.println("Area not found among your owned areas. Please try again: ");
-			}
-
-		} else if (choice.equalsIgnoreCase("n")) {
-			System.out.println("Maybe next time.");
-		} else {
-			System.out.println("Invalid input.");
-
 		}
+	}		
+				
+				if (eligibleAreas.isEmpty()) {
+					System.out.println("\n" + p.getName() + ", you don't have enough volunteer hours or eligible areas for a Development right now.");
+					return;
+				}
+				System.out.print("\n" + p.getName() + "Would you like to carry out a development? If yes, enter y. If no, enter n: ");
+				String answer = scanner.next();
+				scanner.nextLine();
+				if (answer.equalsIgnoreCase("y")) {
+					System.out.println("\n--- 🏗️ DEVELOPMENT MENU ---");
+				    System.out.println("Select an area to develop:");
+					for (int i = 0; i < eligibleAreas.size(); i++) {
+						Area currentArea = eligibleAreas.get(i);
+						Development dev = availableDevs.get(i);
+						System.out.println("\n" + (i+1) + ". " + currentArea.getName() );
+						System.out.println("  Development name: "+ dev.getName());
+						System.out.println("  Cost: " + dev.getCost());
+						System.out.println("  Description: " + dev.getDescription());
+					}
+					System.out.println("Select the number that corresponds with the area you would like to develop: ");
+					int choice = scanner.nextInt();
+					
+					if (choice > 0 && choice <= eligibleAreas.size()) {
+						Area selectedArea = eligibleAreas.get(choice - 1);
+						Development selectedDev = availableDevs.get(choice - 1);
+						p.setCurrency((p.getCurrency() - selectedDev.getCost()));
+						selectedDev.setOwner(p);
+						p.getDevelopments().add(selectedDev);
+						selectedArea.setMinorDevOwnedCounter(selectedArea.getMinorDevOwnedCounter() + 1);
+						
+						System.out.println("🎉 Success! Development complete.");
+						
+						
+					}
+				}
+
 
 	}
 	

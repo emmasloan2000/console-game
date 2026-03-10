@@ -119,25 +119,34 @@ public class Board {
 	
 	
 	
-	public static int findNewPosition(int old, int roll) {
+	public int findNewPosition(int old, int roll) {
 		
 		int newP  = old + roll;
-		int newPosition;
+		int newPosition = ((newP - 1) % 12) + 1;
+		
 		if (newP > 12) {
-			newPosition = newP - 12;
-		} else {
-			newPosition = newP;
-		}
+	
+			if (newPosition == 1) {
+				System.out.println("You have landed on the Activation Zone! You have collected new volunteers! \n Collect 500 volunteer hours!");
+			} else {
+				System.out.println("You have passes the Activation Zone! Collect 200 volunteer hours!");
+			}
+		} 
 		
 		return newPosition;
 		
 	}
 	
 	
-	public static void addPlayerToSquare(int pos, Player player) {
+	
+	public void addPlayerToSquare(Player currentPlayer, int pos) {
 		
+		currentPlayer.setPosition(pos);
 		
 	}
+	
+	
+
 	
 	
 	public Square findPlayerSquare(int pos) {
@@ -145,7 +154,7 @@ public class Board {
 		int index = pos - 1;
 		
 		if (pos < 1 || pos > squares.size()) {
-			throw new IllegalArgumentException("Invalis board position");
+			throw new IllegalArgumentException("Invalid board position");
 		}
 		
 		return squares.get(index);

@@ -75,7 +75,7 @@ public class App {
                     // Requirement: Receive donations for passing/landing on start 
                     Utilities.checkStartStatus(oldPosition, newPosition, currentPlayer);
 
-                    gameBoard.addPlayerToSquare(newPosition,currentPlayer);
+                    gameBoard.addPlayerToSquare(currentPlayer,newPosition);
                     currentPlayer.getCharity().setLocation(newPosition);
                     Square currentSquare = gameBoard.findPlayerSquare(newPosition);
                     Utilities.showBoard(newPosition,currentPlayer);//prints correspodning board image and text of where current player is
@@ -110,11 +110,11 @@ public class App {
 
                     if (!fieldsWithAllDevelopments.isEmpty()) {
                     	
-                        Utilities.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments); // 
+                        Utilities.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments, sc); // 
  
                     } else {
 
-                        Utilities.askToBuyDevelopment(currentPlayer, fullFields); //
+                        Utilities.askToBuyDevelopment(currentPlayer, fullFields, sc); //
 
                 }
 
