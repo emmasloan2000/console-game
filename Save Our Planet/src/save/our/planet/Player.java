@@ -62,8 +62,8 @@ public class Player {
 	/**
 	 * @param charityName the charity to set
 	 */
-	public void setCharity(Charity charityName) {
-		this.charity = charityName;
+	public void setCharity(Charity charity) {
+		this.charity = charity;
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class Player {
 		for (int i = 0; i < this.ownedAreas.size(); i++) {
 			Square squareOwned = this.ownedAreas.get(i);
 			Field field = squareOwned.getField();
-			int fieldNumOfAreas = squareOwned.getField().getAreasOwnedCounter();
+			int fieldNumOfAreas = squareOwned.getField().getAreas().size();
 			for (int j = 0; j < this.ownedAreas.size(); j++) {
 				if (this.ownedAreas.get(j).getField() == field) {
 					fieldNumOfAreas--;

@@ -17,20 +17,20 @@ public class App {
         ArrayList<Square> squares = Utilities.createBoard();
         Board gameBoard = new Board(squares, 0, 0, 0, 0);
 
-        Utilities.colourSettings(); // Requirement: Choice of color palett
+        Utilities.colourSettings(); // Requirement: Choice of colour palette
         int numOfPlayers = Utilities.chooseNumOfPlayers(); // Requirement: 2-4 players
         sc.nextLine(); // Flush the scanner buffer 
 
         ArrayList<Player> players = Utilities.addPlayers(numOfPlayers);
         for (int i = 0; i < players.size(); i++) {
             String playerName = Utilities.getPlayerName(); // Requirement: Input player names 
-            String charityName = Utilities.getCharityName(); // Requirement: Represents a charity
+            Charity charity = Utilities.getCharitySelection(); // Requirement: Represents a charity
             players.get(i).setName(playerName);
-            players.get(i).setCharity(charityName);
+            players.get(i).setCharity(charity);
             players.get(i).setCurrency(1500); // Requirement: Starting balance of 1500 hours 
         }
 
-        Utilities.displayStats(players); // Show initial stats and balances 
+        Utilities.displayStats(players); // Show initial status and balances 
         Utilities.displayInstructions(); // Requirement: Show aim and rules 
 
         int currentPlayerCount = 0;
@@ -69,31 +69,31 @@ public class App {
 
                 // 2. MOVEMENT LOGIC 
                 if (dice1 <= 6 || dice2 <= 6) {
-                    int oldPosition = currentPlayer.getChairty.getLocation();
+                    int oldPosition = currentPlayer.getCharity().getLocation();
                     int newPosition = gameBoard.findNewPosition(oldPosition, totalRoll);
 
                     // Requirement: Receive donations for passing/landing on start 
                     Utilities.checkStartStatus(oldPosition, newPosition, currentPlayer);
 
                     gameBoard.addPlayerToSquare(newPosition,currentPlayer);
-                    currentPlayer.getChairty.setPosition(newPosition);
+                    currentPlayer.getCharity().setLocation(newPosition);
                     Square currentSquare = gameBoard.findPlayerSquare(newPosition);
                     Utilities.showBoard(newPosition,currentPlayer);//prints correspodning board image and text of where current player is
 
                     // 3. LANDING ACTIONS 
-                    if (currentSquare.getIsBlank() == true) { // Green Zone logic 
-                        Utilities.showBlankMessage();
-                    } else if (currentSquare.getIsOwned() == true) {
+                    if (currentSquare.isBlank() == true) { // Green Zone logic 
+                        Utilities.showBlankMessage(currentPlayer);
+                    } else if (currentSquare.isOwned() == true) {
                         if (currentSquare.checkIfOwner(currentPlayer) == true) {
-                            Utilities.showLandedOnOwnSquareMessage();
+                            Utilities.showLandedOnOwnSquareMessage(currentPlayer);
                         } else {
                             Utilities.payRent(currentPlayer, currentSquare); // 10% volunteer hours 
                         }
-                    } else if (currentSquare.getIsOwned() == false) {
-                        if (currentPlayer.hasFunds(currentSquare) == true) {
+                    } else if (currentSquare.isOwned() == false) {
+                        if (currentPlayer.hasFunds((Area) currentSquare) == true) {
                             // Opportunity to buy or auction 
                             Utilities.offerOwnership(currentPlayer, currentSquare);
-                            if (currentSquare.getIsOwned() == false) {
+                            if (currentSquare.isOwned() == false) {
                                 Utilities.auctionOff(currentPlayer, currentSquare, players, sc);
                             }
                         }
@@ -104,28 +104,22 @@ public class App {
                 // Allowed from anywhere on the board if requirements are met 
 
                 ArrayList<Field> fullFields = currentPlayer.getAllAreasInField();// returns list of fields the player owns all areas in
-                
+                ArrayList<Field> fieldsWithAllDevelopments = new ArrayList<Field>();// list of fields with all areas that have all developments
                 if (!fullFields.isEmpty()) { 
-                	 ArrayList<Field> fieldsWithAllDevelopments = currentPlayer.getFieldsAllDevelopments(fullFields);
+                	fieldsWithAllDevelopments = currentPlayer.getFieldsAllDevelopments(fullFields);
 
                     if (!fieldsWithAllDevelopments.isEmpty()) {
+                    	
                         Utilities.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments); // 
-
-                if (currentPlayer.ownsAllAreasInField(gameBoard) == true) {
-                    if (currentPlayer.ownsAllDevelopments(gameBoard) == true) {
-                        Utilities.askToBuyMajorDevelopment(currentPlayer, gameBoard, sc); // [
-
+ 
                     } else {
 
                         Utilities.askToBuyDevelopment(currentPlayer, fullFields); //
 
-                        Utilities.askToBuyDevelopment(currentPlayer, gameBoard, sc); //
-
-                    }
                 }
 
                 // 5. WIN CONDITION CHECK 
-                if (currentPlayer.ownsAllMajorDevelopments(fullFields) == true) {
+                if (currentPlayer.ownsAllAMajorDevelopments(fullFields) == true) {
                     gameOn = false;
                     winner = currentPlayer;
                     Utilities.showWinnerScreen(winner);
@@ -141,13 +135,8 @@ public class App {
 
 
             } else if (response.equalsIgnoreCase("f")) {
-                Utilities.handleForfeit(currentPlayer, players);
-            } else if (response.equalsIgnoreCase("p")) {
-
-            } else if (response.equalsIgnoreCase("f"))
                 Utilities.handleForfeit(currentPlayer, players, gameBoard);
-            } else if (response.equalsIgnoreCase("p"))
-
+            } else if (response.equalsIgnoreCase("p")) {
             	Utilities.displayStats(players);
                 System.out.println("game paused, enter any key to resume");
             	String holder = sc.next();
@@ -159,5 +148,5 @@ public class App {
             	System.out.println("please enter a valid command");
 			}
 		} // End of while loop
-	} // End of main method
+} // End of main method
 } // End of App class

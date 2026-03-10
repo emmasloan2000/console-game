@@ -11,6 +11,22 @@ import java.util.Scanner;
  *
  */
 public class Utilities {
+	/*
+	 * random
+	 */
+	private static final Random random = new Random();
+	/*
+	 * scanner
+	 */
+	private static final Scanner scanner = new Scanner(System.in);
+	/*
+	 * charity emojis
+	 */
+	private static final String[] EMOJI_GAME_PIECES = { "🌳", "🐼", "🍀", "🌍" };
+
+	private static final String[] CHARITIES = { "The Nature Conservancy", "WWF", "Green Peace",
+			"Friends of the Earth" };
+
 	private static final int PASS_ACTIVATION_REWARD = 200;
 	private static final int LAND_ACTIVATION_REWARD = 500;
 	private static final int BOARD_SIZE = 12;
@@ -67,21 +83,19 @@ public class Utilities {
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * paying rent 
+	 * paying rent
 	 * 
 	 * @param currentPlayer
 	 * @param currentArea
 	 */
-	public void payRent(Player currentPlayer, Area currentArea,ArrayList<Player> players) {
-		Player owner;
+	public void payRent(Player currentPlayer, Area currentArea, ArrayList<Player> players) {
+		Player owner = currentArea.getOwner();
 		int developments = currentArea.getMinorDevOwnedCounter();
 		int majorDev = currentArea.getMajorDevOwnedCounter();
-		int rent;
+		int rent =0;
 		currentArea.setOwner(owner);
-		
 
 		if (developments == 0) {
 			rent = currentArea.getCost() / 10;
@@ -92,35 +106,35 @@ public class Utilities {
 		} else if (developments == 3) {
 			if (majorDev == 0) {
 				rent = currentArea.getCost();
-			} else if (majorDev == 1){
-				rent = currentArea.getCost()*2;
+			} else if (majorDev == 1) {
+				rent = currentArea.getCost() * 2;
 			}
-			
-		};
 
-		System.out.println(currentPlayer.getName() + " landed on " + currentArea.getName() + " and must volunteer " + rent
-				+ " Volunteer Hours to " + owner.getName());
+			System.out.println(currentPlayer.getName() + " landed on " + currentArea.getName() + " and must volunteer "
+					+ rent + " Volunteer Hours to " + owner.getName());
 
-		if (currentPlayer.getCurrency() >= rent) {
+			if (currentPlayer.getCurrency() >= rent) {
 
-			currentPlayer.setCurrency(currentPlayer.getCurrency() - rent);
-			owner.setCurrency(owner.getCurrency() + rent);
+				currentPlayer.setCurrency(currentPlayer.getCurrency() - rent);
+				owner.setCurrency(owner.getCurrency() + rent);
 
-			System.out
-					.println(currentPlayer.getName() + " now has " + currentPlayer.getCurrency() + " Volunteer Hours.");
+				System.out.println(
+						currentPlayer.getName() + " now has " + currentPlayer.getCurrency() + " Volunteer Hours.");
 
-			System.out.println(owner.getName() + " now has " + owner.getCurrency() + " Volunteer Hours.");
-		} else {
-			System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
-					+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
-			
+				System.out.println(owner.getName() + " now has " + owner.getCurrency() + " Volunteer Hours.");
+			} else {
+				System.out.println(currentPlayer.getName() + " does not have enough Volunteer Hours to donate to "
+						+ owner.getName() + ". " + currentPlayer.getName() + " is out of the game.");
+				players.remove(currentPlayer);
+			}
+
 			ArrayList<Area> previousAreas = currentPlayer.getOwnedAreas();
 
 			for (Area area : previousAreas) {
-			    area.setOwned(false);
-			    area.setDevelopments(null);
-			    area.setMajorDevOwnedCounter(0);
-			    area.setOwner(null);
+				area.setOwned(false);
+				area.setDevelopments(null);
+				area.setMajorDevOwnedCounter(0);
+				area.setOwner(null);
 			}
 			players.remove(currentPlayer);
 		}
@@ -175,7 +189,6 @@ public class Utilities {
 		System.out.println("Auction starting for " + square.getName());
 
 		int highestBid = 0;
-
 		Player highestBidder;
 
 		for (Player player : players) {
@@ -194,19 +207,18 @@ public class Utilities {
 		if (highestBidder != null) {
 			int newCurrency = highestBidder.getCurrency() - highestBid;
 			highestBidder.setCurrency(newCurrency);
-			square.setOwned(true);
-			Area.setOwner(highestBidder);
+			square.setIsOwned(true);
+			square.setOwner(highestBidder);
 
 			System.out.println(highestBidder.getName() + "wins the auction for " + highestBid);
 		} else {
 			System.out.println("No one bid. Area remains unowned");
 		}
 	}
-
+	
+	
 	/**
-	 * asking player if they want to buy a major developer if they own the other 3
-	 * minor developments
-	 * 
+	 * ask to buy a major development
 	 * @param p
 	 * @param board
 	 * @param scanner
@@ -237,7 +249,7 @@ public class Utilities {
 			String areaChoice = scanner.next();
 
 			for (Area area : ownedAreas) {
-				String areaName = area.getAreaName();
+				String areaName = area.getName();
 
 				if (areaName.equalsIgnoreCase(areaChoice)) {
 					areaFound = true;
@@ -246,7 +258,7 @@ public class Utilities {
 
 					boolean areaAlreadyDeveloped = false;
 					for (Development d : developmentAlreadyOwned) {
-						if (d.getIsMajorDevelopment() && d.getArea().equals(area)) {
+						if ((area.getMinorDevOwnedCounter() == 3 )&& (area.getMajorDevOwnedCounter()==1)) {
 							areaAlreadyDeveloped = true;
 							System.out.println("This area already has a major development. Please choose another");
 							break;
@@ -294,8 +306,7 @@ public class Utilities {
 	}
 
 	/**
-	 * asking if a player lands on the development if they want to buy it
-	 * 
+	 * ask to buy development 
 	 * @param p
 	 * @param board
 	 * @param scanner
@@ -326,7 +337,7 @@ public class Utilities {
 			boolean areaFound = false;
 
 			for (Area area : ownedAreas) {
-				String areaName = area.getAreaName();
+				String areaName = area.getName();
 
 				if (areaName.equalsIgnoreCase(areaChoice)) {
 					areaFound = true;
@@ -350,7 +361,7 @@ public class Utilities {
 
 						int updatedCount = area.getMinorDevOwnedCounter();
 						developments++;
-						area.setMinorDevOwnedCounter(developments);
+						area.setMinorDevOwnedCounter(ownedCount);
 
 						System.out.println("Development successful!");
 
@@ -374,11 +385,9 @@ public class Utilities {
 		}
 
 	}
-
+	
 	/**
-	 * showing the winner to screen once the game is over and a player has restored
-	 * an area
-	 * 
+	 * show winner to screen
 	 * @param p
 	 */
 	public static void showWinnerScreen(Player p) {
@@ -401,63 +410,45 @@ public class Utilities {
 				""");
 
 	}
-
+	
 	/**
-	 * handle forfeit - player decides to forfeit and
-	 * 
+	 * handle forfeit 
 	 * @param p
 	 * @param players
 	 * @param board
 	 */
 	public static void handleForfeit(Player p, ArrayList<Player> players, Board board) {
 
-		players.remove(p);
 
-		ArrayList<Square> squares = board.getSquares();
-		ArrayList<Area> ownedAreas = p.getOwnedAreas();
+		ArrayList<Area> previousAreas = p.getOwnedAreas();
+
+		for (Area area : previousAreas) {
+			area.setOwned(false);
+			area.setDevelopments(null);
+			area.setMajorDevOwnedCounter(0);
+			area.setOwner(null);
+		}
+		
+		
+		
 
 		if (players.size() >= 1) {
 
 			System.out.println(p.getName() + " has forfeited the game. Their owned areas are now up for grabs!");
-
-			for (Square square : squares) {
-				for (Area area : ownedAreas) {
-
-					if (area.getAreaName().equals(square.getSquareName())) {
-
-						square.setOwner(null);
-						square.setMinorDevelopmentCounter(0);
-						square.setMajorDevelopmentCounter(0);
-						square.setOwned(false);
-					}
-				}
-			}
-
+			players.remove(p);
+			
 		} else if (players.size() == 1) {
 
 			Player winner = players.get(0);
 
 			System.out.println(p.getName() + " has forfeited the game.");
+			players.remove(p);
 
 			showWinnerScreen(winner);
 		}
 	}
 
-	/*
-	 * random
-	 */
-	private static final Random random = new Random();
-	/*
-	 * scanner
-	 */
-	private static final Scanner scanner = new Scanner(System.in);
-	/*
-	 * charity emojis
-	 */
-	private static final String[] EMOJI_GAME_PIECES = { "🌳", "🐼", "🍀", "🌍" };
 
-	private static final String[] CHARITIES = { "The Nature Conservancy", "WWF", "Green Peace",
-			"Friends of the Earth" };
 
 	/*
 	 * displays game instructions
@@ -548,7 +539,7 @@ public class Utilities {
 					.println("You rolled: " + dice1 + " and " + dice2 + ". You move forward " + totalMove + " spaces.");
 		}
 
-		return new int { totalMove, chanceCount };
+		return new int[] { totalMove, chanceCount };
 	}
 
 	/*
@@ -596,10 +587,8 @@ public class Utilities {
 			}
 		}
 	}
-
 	/**
-	 * gets the player name
-	 * 
+	 * get player name 
 	 * @return
 	 */
 	public static String getPlayerName() {
@@ -616,10 +605,9 @@ public class Utilities {
 		System.out.println("Player name recorded.");
 		return name;
 	}
-
+	
 	/**
-	 * display's available game pieces
-	 * 
+	 * display available game pieces 
 	 * @param taken
 	 */
 	public static void displayAvailableGamePieces(boolean[] taken) {
@@ -629,10 +617,9 @@ public class Utilities {
 			System.out.println((i + 1) + ") " + EMOJI_GAME_PIECES[i] + status);
 		}
 	}
-
+	
 	/**
-	 * choosing the emoji token
-	 * 
+	 * choose emoji token 
 	 * @param taken
 	 * @return
 	 */
@@ -665,10 +652,9 @@ public class Utilities {
 			}
 		}
 	}
-
+	
 	/**
-	 * get the charity associated with the emoji
-	 * 
+	 * get charity for emoji
 	 * @param emoji
 	 * @return
 	 */
@@ -682,10 +668,9 @@ public class Utilities {
 
 		return "Unknown Charity"; // fallback (should never happen)
 	}
-
+	
 	/**
-	 * adds the player
-	 * 
+	 * add player to the arraylist 
 	 * @param n
 	 * @return
 	 */
@@ -711,8 +696,7 @@ public class Utilities {
 	}
 
 	/**
-	 * display statistics for the players
-	 * 
+	 * display statistics 
 	 * @param players
 	 */
 	public static void displayStats(ArrayList<Player> players) {
@@ -725,6 +709,13 @@ public class Utilities {
 		System.out.println("=============================\n");
 	}
 
+	
+	/**
+	 * check start status 
+	 * @param oldPos
+	 * @param newPos
+	 * @param p
+	 */
 	public static void checkStartStatus(int oldPos, int newPos, Player p) {
 
 		if (newPos == ACTIVATION_INDEX) {
@@ -762,6 +753,11 @@ public class Utilities {
 		return board;
 	}
 
+	
+	
+	
+	
+	
 	private static final String[] squares = { " Square 1: The Activation Zone", " Square 2: The Green Zone",
 			" Square 3: The North Pole", " Square 4: The Atlantic Ocean", " Square 5: The Amazon Rainforest",
 			" Square 6: The Pacific Ocean", " Square 7: Dehli, India", " Square 8: The Sumatran Rainforest",
@@ -1296,5 +1292,7 @@ public class Utilities {
 					+ "                                       ▇▇                                       \n"
 					+ "                                       ▇▇                                       \n"
 					+ "                                                                                \n" + "" };
+
+
 
 }

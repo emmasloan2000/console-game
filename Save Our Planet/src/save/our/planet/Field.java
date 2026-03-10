@@ -14,6 +14,7 @@ public class Field {
 	private ArrayList<Area> areas;
 	private int areasOwnedCounter;
 	private int majorDevelopmentsCounter;
+	private String name;
 
 	public Field() {
 
@@ -25,12 +26,13 @@ public class Field {
 	 * @param areasOwnedCounter
 	 * @param majorDevelopmentsCounter
 	 */
-	public Field(Player owner, ArrayList<Area> areas, int areasOwnedCounter, int majorDevelopmentsCounter) {
+	public Field(Player owner, ArrayList<Area> areas, int areasOwnedCounter, int majorDevelopmentsCounter, String name) {
 		super();
 		this.owner = owner;
 		this.areas = areas;
 		this.areasOwnedCounter = areasOwnedCounter;
 		this.majorDevelopmentsCounter = majorDevelopmentsCounter;
+		this.name = name;
 	}
 
 	/**
@@ -87,6 +89,20 @@ public class Field {
 	 */
 	public void setMajorDevelopmentsCounter(int majorDevelopmentsCounter) {
 		this.majorDevelopmentsCounter = majorDevelopmentsCounter;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

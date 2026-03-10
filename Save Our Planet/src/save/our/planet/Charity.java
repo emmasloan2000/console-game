@@ -8,7 +8,7 @@ package save.our.planet;
  */
 public class Charity {
 
-	private String icon;
+	private CharitySymbol symbol;
 	private int location;
 
 	public Charity() {
@@ -19,24 +19,24 @@ public class Charity {
 	 * @param icon
 	 * @param location
 	 */
-	public Charity(String icon, int location) {
+	public Charity(CharitySymbol icon, int location) {
 		super();
-		this.icon = icon;
+		this.symbol = icon;
 		this.location = location;
 	}
 
 	/**
 	 * @return the icon
 	 */
-	public String getIcon() {
-		return icon;
+	public CharitySymbol getIcon() {
+		return symbol;
 	}
 
 	/**
 	 * @param icon the icon to set
 	 */
-	public void setIcon(String icon) {
-		this.icon = icon;
+	public void setIcon(CharitySymbol icon) {
+		this.symbol = icon;
 	}
 
 	/**
