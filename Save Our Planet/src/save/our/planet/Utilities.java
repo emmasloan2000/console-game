@@ -24,12 +24,8 @@ public class Utilities {
 	 */
 	private static final String[] EMOJI_GAME_PIECES = { "🌊", "🌷", "🌙", "🌍" };
 
-	static final Charity[] CHARITIES = {
-		    new Charity(CharitySymbol.WAVE, 0),
-		    new Charity(CharitySymbol.ROSE, 0),
-		    new Charity(CharitySymbol.MOON, 0),
-		    new Charity(CharitySymbol.EARTH, 0)
-		};
+	static final Charity[] CHARITIES = { new Charity(CharitySymbol.WAVE, 0), new Charity(CharitySymbol.ROSE, 0),
+			new Charity(CharitySymbol.MOON, 0), new Charity(CharitySymbol.EARTH, 0) };
 
 	private static final int PASS_ACTIVATION_REWARD = 200;
 	private static final int LAND_ACTIVATION_REWARD = 500;
@@ -40,69 +36,68 @@ public class Utilities {
 	private static final String GREEN = "GREEN";
 	private static final String ACTIVATION = "ACTIVATION";
 
-public static final String RESET = "\033[0m";
-	
-    public static final String CYAN_BACKGROUND_BRIGHT = "\033[106m";
-    public static final String BLACK_BACKGROUND = "\033[40m";
-    public static final String RED_BACKGROUND_BRIGHT = "\033[101m";
-    public static final String BLUE_BACKGROUND = "\033[44m";
-    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[103m";
-    
-    public static final String BLUE = "\033[34m";
-    public static final String GREEN_BRIGHT = "\033[92m";
-    public static final String WHITE_BRIGHT = "\033[97m";
-    public static final String PURPLE_BRIGHT = "\033[95m";
-    public static final String BLACK = "\033[30m";
-	
-	public static void colourSettings (Scanner sc) {
-		
+	public static final String RESET = "\033[0m";
+
+	public static final String CYAN_BACKGROUND_BRIGHT = "\033[106m";
+	public static final String BLACK_BACKGROUND = "\033[40m";
+	public static final String RED_BACKGROUND_BRIGHT = "\033[101m";
+	public static final String BLUE_BACKGROUND = "\033[44m";
+	public static final String YELLOW_BACKGROUND_BRIGHT = "\033[103m";
+
+	public static final String BLUE = "\033[34m";
+	public static final String GREEN_BRIGHT = "\033[92m";
+	public static final String WHITE_BRIGHT = "\033[97m";
+	public static final String PURPLE_BRIGHT = "\033[95m";
+	public static final String BLACK = "\033[30m";
+
+	public static void colourSettings(Scanner sc) {
+
 		boolean check = true;
-		
-		while(check) {
-		check=false;
-		System.out.println("pick colour settings");
 
-		System.out.println(CYAN_BACKGROUND_BRIGHT + BLUE + " AQUA     type'a'" + RESET);
-		System.out.println(BLACK_BACKGROUND + GREEN_BRIGHT + " RETRO    type'r'" + RESET);
-		System.out.println(RED_BACKGROUND_BRIGHT + WHITE_BRIGHT + " BOLD     type'b'" + RESET);
-		System.out.println(BLUE_BACKGROUND + PURPLE_BRIGHT + " POP      type'p'" + RESET);
-		System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK + " CLEAN    type'c'" + RESET);
+		while (check) {
+			check = false;
+			System.out.println("pick colour settings");
 
-		String choice = sc.nextLine();
-		switch (choice.toLowerCase()) {
-		case "a": {
-			System.out.println(CYAN_BACKGROUND_BRIGHT + BLUE + " AQUA selected");
-			break;
-		}
-		case "r": {
-			System.out.println(BLACK_BACKGROUND + GREEN_BRIGHT + " RETRO selected");
-			break;
-		}
-		case "b": {
-			System.out.println(RED_BACKGROUND_BRIGHT + WHITE_BRIGHT + " BOLD selected");
-			break;
-		}
-		case "p": {
-			System.out.println(BLUE_BACKGROUND + PURPLE_BRIGHT + " POP selected");
-			break;
-		}
-		case "c": {
-			System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK + " CLEAN selected");
-			break;
-		}
-		case "n": {
-			System.out.println(RESET);
-			break;
-		}
-		default:
-			System.out.println("invalid input");
-			check=true;
-		}
-		
+			System.out.println(CYAN_BACKGROUND_BRIGHT + BLUE + " AQUA     type'a'" + RESET);
+			System.out.println(BLACK_BACKGROUND + GREEN_BRIGHT + " RETRO    type'r'" + RESET);
+			System.out.println(RED_BACKGROUND_BRIGHT + WHITE_BRIGHT + " BOLD     type'b'" + RESET);
+			System.out.println(BLUE_BACKGROUND + PURPLE_BRIGHT + " POP      type'p'" + RESET);
+			System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK + " CLEAN    type'c'" + RESET);
+
+			String choice = sc.nextLine();
+			switch (choice.toLowerCase()) {
+			case "a": {
+				System.out.println(CYAN_BACKGROUND_BRIGHT + BLUE + " AQUA selected");
+				break;
+			}
+			case "r": {
+				System.out.println(BLACK_BACKGROUND + GREEN_BRIGHT + " RETRO selected");
+				break;
+			}
+			case "b": {
+				System.out.println(RED_BACKGROUND_BRIGHT + WHITE_BRIGHT + " BOLD selected");
+				break;
+			}
+			case "p": {
+				System.out.println(BLUE_BACKGROUND + PURPLE_BRIGHT + " POP selected");
+				break;
+			}
+			case "c": {
+				System.out.println(YELLOW_BACKGROUND_BRIGHT + BLACK + " CLEAN selected");
+				break;
+			}
+			case "n": {
+				System.out.println(RESET);
+				break;
+			}
+			default:
+				System.out.println("invalid input");
+				check = true;
+			}
+
 		}
 	}
 
-	
 	/**
 	 * offer ownership
 	 * 
@@ -161,7 +156,7 @@ public static final String RESET = "\033[0m";
 		Player owner = currentArea.getOwner();
 		int developments = currentArea.getMinorDevOwnedCounter();
 		int majorDev = currentArea.getMajorDevOwnedCounter();
-		int rent =0;
+		int rent = 0;
 		currentArea.setOwner(owner);
 
 		if (developments == 0) {
@@ -253,7 +248,8 @@ public static final String RESET = "\033[0m";
 	 */
 	public static void auctionOff(Player p, Square square, ArrayList<Player> players, Scanner scanner) {
 
-		System.out.println("Dice roll starting for " + square.getName() + ".  Highest dice roll can purchase the area! 🎉");
+		System.out.println(
+				"Dice roll starting for " + square.getName() + ".  Highest dice roll can purchase the area! 🎉");
 
 		int highestRoll = 0;
 		ArrayList<Player> highestRollers = new ArrayList<Player>();
@@ -265,100 +261,99 @@ public static final String RESET = "\033[0m";
 				continue;
 			}
 			boolean validEntry = false;
-	        while (!validEntry) {
+			while (!validEntry) {
 
-			System.out.println(player.getName() + " If you want a chance to but his square, enter r to roll the dice. \nIf you don't want to but this area press n: ");
-			String decision = scanner.next();
-			
-			int currentRoll = 0;
-			if (decision.equalsIgnoreCase("r")) {
-				currentRoll = diceRollForAuctionOff();
-		
-				if (currentRoll > highestRoll ) {
-					highestRoll = currentRoll;
-					highestRollers.clear();
-					highestRollers.add(player);
-					System.out.println(player.getName() + ", you rolled a " + highestRoll + ". You are currently the highest roller!");
-				
-				} else if (currentRoll < highestRoll) {
-					System.out.println(player.getName() + ", you rolled a " + currentRoll + ". You have lost the dice roll. ☹️ Better luck next time️");
-				
-				}else if (currentRoll == highestRoll) {
-					highestRollers.add(player);
-					System.out.println(player.getName() + ", you rolled a " + currentRoll + ". You are currently tied for highestRoller!");
+				System.out.println(player.getName()
+						+ " If you want a chance to but his square, enter r to roll the dice. \nIf you don't want to but this area press n: ");
+				String decision = scanner.next();
+
+				int currentRoll = 0;
+				if (decision.equalsIgnoreCase("r")) {
+					currentRoll = diceRollForAuctionOff();
+
+					if (currentRoll > highestRoll) {
+						highestRoll = currentRoll;
+						highestRollers.clear();
+						highestRollers.add(player);
+						System.out.println(player.getName() + ", you rolled a " + highestRoll
+								+ ". You are currently the highest roller!");
+
+					} else if (currentRoll < highestRoll) {
+						System.out.println(player.getName() + ", you rolled a " + currentRoll
+								+ ". You have lost the dice roll. ☹️ Better luck next time️");
+
+					} else if (currentRoll == highestRoll) {
+						highestRollers.add(player);
+						System.out.println(player.getName() + ", you rolled a " + currentRoll
+								+ ". You are currently tied for highestRoller!");
+					}
+					validEntry = true;
+
+				} else if (decision.equalsIgnoreCase("n")) {
+					System.out.println(player.getName() + "has opted out.");
+					validEntry = true;
+				} else {
+					System.out.println("Invalid input, please try again");
 				}
-				validEntry = true;
-			
-			
-			} else if (decision.equalsIgnoreCase("n")) {
-				System.out.println(player.getName() + "has opted out.");
-				validEntry = true;
-			} else {
-				System.out.println("Invalid input, please try again");
-			} 
-			
-	        }
-	        
+
+			}
+
 		}
-	
-	    while (highestRollers.size() > 1) {
-	        System.out.println("\n--- 🤝 TIE BREAKER! ---");
-	        System.out.print("The following players are tied: ");
-	        for (Player tp : highestRollers) {
-	        	System.out.print(tp.getName() + " ");
-	        }
-	        System.out.println("\nOnly these players will roll again.");
 
-	        int tieHighRoll = 0;
-	        ArrayList<Player> tieWinners = new ArrayList<>();
+		while (highestRollers.size() > 1) {
+			System.out.println("\n--- 🤝 TIE BREAKER! ---");
+			System.out.print("The following players are tied: ");
+			for (Player tp : highestRollers) {
+				System.out.print(tp.getName() + " ");
+			}
+			System.out.println("\nOnly these players will roll again.");
 
-	        for (Player tiedPlayer : highestRollers) {
-	            boolean validTieRoll = false;
-	            while (!validTieRoll) {
-	                System.out.print(tiedPlayer.getName() + ", press 'r' to roll for the tie-breaker: ");
-	                String tieDecision = scanner.next();
-	                
-	                if (tieDecision.equalsIgnoreCase("r")) {
-	                    int roll = diceRollForAuctionOff();
-	                    System.out.println(tiedPlayer.getName() + " rolled a 🎲: " + roll);
+			int tieHighRoll = 0;
+			ArrayList<Player> tieWinners = new ArrayList<>();
 
-	                    if (roll > tieHighRoll) {
-	                        tieHighRoll = roll;
-	                        tieWinners.clear();
-	                        tieWinners.add(tiedPlayer);
-	                    } else if (roll == tieHighRoll && tieHighRoll > 0) {
-	                        tieWinners.add(tiedPlayer);
-	                    }
-	                    validTieRoll = true;
-	                } else {
-	                    System.out.println("❌ Invalid! You must roll 'r' to continue the tie-breaker.");
-	                }
-	            }
-	        }
-	       
-	        highestRollers = tieWinners;
-	    }
+			for (Player tiedPlayer : highestRollers) {
+				boolean validTieRoll = false;
+				while (!validTieRoll) {
+					System.out.print(tiedPlayer.getName() + ", press 'r' to roll for the tie-breaker: ");
+					String tieDecision = scanner.next();
 
-	  
-	    System.out.println("\n--- FINAL RESULTS ---");
-	    if (highestRollers.size() == 1) {
-	        Player winner = highestRollers.get(0);
-	        System.out.println("The winner is " + winner.getName() + "! 🏆");
-	        
-	        
-	        winner.setCurrency(winner.getCurrency() - areaForSale.getCost());
-	        winner.getOwnedAreas().add(areaForSale);
-	        areaForSale.setOwner(winner);
-	        
-	        System.out.println(winner.getName() + " paid " + areaForSale.getCost() + " volunteer hours.");
-	        System.out.println(winner.getName() + " now owns " + areaForSale.getName() + "!");
-	    } else {
-	        System.out.println("No one purchased the area. Auction closed.");
-	    }
+					if (tieDecision.equalsIgnoreCase("r")) {
+						int roll = diceRollForAuctionOff();
+						System.out.println(tiedPlayer.getName() + " rolled a 🎲: " + roll);
+
+						if (roll > tieHighRoll) {
+							tieHighRoll = roll;
+							tieWinners.clear();
+							tieWinners.add(tiedPlayer);
+						} else if (roll == tieHighRoll && tieHighRoll > 0) {
+							tieWinners.add(tiedPlayer);
+						}
+						validTieRoll = true;
+					} else {
+						System.out.println("❌ Invalid! You must roll 'r' to continue the tie-breaker.");
+					}
+				}
+			}
+
+			highestRollers = tieWinners;
+		}
+
+		System.out.println("\n--- FINAL RESULTS ---");
+		if (highestRollers.size() == 1) {
+			Player winner = highestRollers.get(0);
+			System.out.println("The winner is " + winner.getName() + "! 🏆");
+
+			winner.setCurrency(winner.getCurrency() - areaForSale.getCost());
+			winner.getOwnedAreas().add(areaForSale);
+			areaForSale.setOwner(winner);
+
+			System.out.println(winner.getName() + " paid " + areaForSale.getCost() + " volunteer hours.");
+			System.out.println(winner.getName() + " now owns " + areaForSale.getName() + "!");
+		} else {
+			System.out.println("No one purchased the area. Auction closed.");
+		}
 	}
-		
 
-	
 	public static int diceRollForAuctionOff() {
 
 		int dice1 = random.nextInt(7) + 1;
@@ -366,34 +361,32 @@ public static final String RESET = "\033[0m";
 		int dice2 = random.nextInt(7) + 1;
 
 		int totalMove = 0;
-		
-		if (dice1 <= 6 && dice2 <=6) {
+
+		if (dice1 <= 6 && dice2 <= 6) {
 			totalMove = dice1 + dice2;
 		} else if (dice1 > 6 && dice2 > 6) {
 			totalMove = 0;
-		} else if (dice1 > 6 && dice2 <= 6 ) {
+		} else if (dice1 > 6 && dice2 <= 6) {
 			totalMove = dice2;
-		}else if (dice1 <= 6 && dice2 > 6) {
+		} else if (dice1 <= 6 && dice2 > 6) {
 			totalMove = dice1;
 		}
-		
 
 		return totalMove;
 	}
-	
-	
+
 	/**
 	 * ask to buy a major development
+	 * 
 	 * @param p
 	 * @param board
 	 * @param scanner
 	 */
 	public static void askToBuyMajorDevelopment(Player p, ArrayList<Field> fieldsWithAllDevelopments, Scanner scanner) {
-		
-	
+
 		ArrayList<Area> eligibleAreas = new ArrayList<Area>();
 		ArrayList<Development> availableMajorDevs = new ArrayList<Development>();
-		
+
 		for (Field field : fieldsWithAllDevelopments) {
 			ArrayList<Area> areasInField = field.getAreas();
 			for (Area area : areasInField) {
@@ -405,64 +398,65 @@ public static final String RESET = "\033[0m";
 							if (p.getCurrency() >= price) {
 								eligibleAreas.add(area);
 								availableMajorDevs.add(development);
-						
+
 							}
 						}
-						
+
+					}
 				}
 			}
 		}
-	}		
-				
-				if (eligibleAreas.isEmpty()) {
-					System.out.println("\n" + p.getName() + ", you don't have enough volunteer hours or eligible areas for a Major Development right now.");
-					return;
-				}
-				System.out.print("\n" + p.getName() + "Would you like to carry out a major development? If yes, enter y. If no, enter n: ");
-				String answer = scanner.next();
-				scanner.nextLine();
-				if (answer.equalsIgnoreCase("y")) {
-					System.out.println("\n--- 🏗️ MAJOR DEVELOPMENT MENU ---");
-				    System.out.println("Select an area to upgrade to a Major Development:");
-					for (int i = 0; i < eligibleAreas.size(); i++) {
-						Area currentArea = eligibleAreas.get(i);
-						Development majorDev = availableMajorDevs.get(i);
-						System.out.println("\n" + (i+1) + ". " + currentArea.getName() );
-						System.out.println("  Major Development name: "+ majorDev.getName());
-						System.out.println("  Cost: " + majorDev.getCost());
-						System.out.println("  Description: " + majorDev.getDescription());
-					}
-					System.out.println("Select the number that corresponds with the area you would like to develop: ");
-					int choice = scanner.nextInt();
-					
-					if (choice > 0 && choice <= eligibleAreas.size()) {
-						Area selectedArea = eligibleAreas.get(choice - 1);
-						Development selectedDev = availableMajorDevs.get(choice - 1);
-						p.setCurrency((p.getCurrency() - selectedDev.getCost()));
-						selectedDev.setOwner(p);
-						p.getDevelopments().add(selectedDev);
-						selectedArea.setMajorDevOwnedCounter(selectedArea.getMajorDevOwnedCounter() + 1);
-						
-						System.out.println("🎉 Success! Development complete.");
-						
-						
-					}
-				}
-				
+
+		if (eligibleAreas.isEmpty()) {
+			System.out.println("\n" + p.getName()
+					+ ", you don't have enough volunteer hours or eligible areas for a Major Development right now.");
+			return;
+		}
+		System.out.print("\n" + p.getName()
+				+ "Would you like to carry out a major development? If yes, enter y. If no, enter n: ");
+		String answer = scanner.next();
+		scanner.nextLine();
+		if (answer.equalsIgnoreCase("y")) {
+			System.out.println("\n--- 🏗️ MAJOR DEVELOPMENT MENU ---");
+			System.out.println("Select an area to upgrade to a Major Development:");
+			for (int i = 0; i < eligibleAreas.size(); i++) {
+				Area currentArea = eligibleAreas.get(i);
+				Development majorDev = availableMajorDevs.get(i);
+				System.out.println("\n" + (i + 1) + ". " + currentArea.getName());
+				System.out.println("  Major Development name: " + majorDev.getName());
+				System.out.println("  Cost: " + majorDev.getCost());
+				System.out.println("  Description: " + majorDev.getDescription());
+			}
+			System.out.println("Select the number that corresponds with the area you would like to develop: ");
+			int choice = scanner.nextInt();
+
+			if (choice > 0 && choice <= eligibleAreas.size()) {
+				Area selectedArea = eligibleAreas.get(choice - 1);
+				Development selectedDev = availableMajorDevs.get(choice - 1);
+				p.setCurrency((p.getCurrency() - selectedDev.getCost()));
+				selectedDev.setOwner(p);
+				p.getDevelopments().add(selectedDev);
+				selectedArea.setMajorDevOwnedCounter(selectedArea.getMajorDevOwnedCounter() + 1);
+
+				System.out.println("🎉 Success! Development complete.");
+
+			}
+		}
+
 	}
 
 	/**
-	 * ask to buy development 
+	 * ask to buy development
+	 * 
 	 * @param p
 	 * @param board
 	 * @param scanner
 	 */
 	public static void askToBuyDevelopment(Player p, ArrayList<Field> fullFields, Scanner scanner) {
-		
 
 		ArrayList<Area> eligibleAreas = new ArrayList<Area>();
 		ArrayList<Development> availableDevs = new ArrayList<Development>();
-		
+
 		for (Field field : fullFields) {
 			ArrayList<Area> areasInField = field.getAreas();
 			for (Area area : areasInField) {
@@ -474,55 +468,57 @@ public static final String RESET = "\033[0m";
 							if (p.getCurrency() >= price) {
 								eligibleAreas.add(area);
 								availableDevs.add(development);
-						
-							} break;
+
+							}
+							break;
 						}
-						
+
+					}
 				}
 			}
 		}
-	}		
-				
-				if (eligibleAreas.isEmpty()) {
-					System.out.println("\n" + p.getName() + ", you don't have enough volunteer hours or eligible areas for a Development right now.");
-					return;
-				}
-				System.out.print("\n" + p.getName() + "Would you like to carry out a development? If yes, enter y. If no, enter n: ");
-				String answer = scanner.next();
-				scanner.nextLine();
-				if (answer.equalsIgnoreCase("y")) {
-					System.out.println("\n--- 🏗️ DEVELOPMENT MENU ---");
-				    System.out.println("Select an area to develop:");
-					for (int i = 0; i < eligibleAreas.size(); i++) {
-						Area currentArea = eligibleAreas.get(i);
-						Development dev = availableDevs.get(i);
-						System.out.println("\n" + (i+1) + ". " + currentArea.getName() );
-						System.out.println("  Development name: "+ dev.getName());
-						System.out.println("  Cost: " + dev.getCost());
-						System.out.println("  Description: " + dev.getDescription());
-					}
-					System.out.println("Select the number that corresponds with the area you would like to develop: ");
-					int choice = scanner.nextInt();
-					
-					if (choice > 0 && choice <= eligibleAreas.size()) {
-						Area selectedArea = eligibleAreas.get(choice - 1);
-						Development selectedDev = availableDevs.get(choice - 1);
-						p.setCurrency((p.getCurrency() - selectedDev.getCost()));
-						selectedDev.setOwner(p);
-						p.getDevelopments().add(selectedDev);
-						selectedArea.setMinorDevOwnedCounter(selectedArea.getMinorDevOwnedCounter() + 1);
-						
-						System.out.println("🎉 Success! Development complete.");
-						
-						
-					}
-				}
 
+		if (eligibleAreas.isEmpty()) {
+			System.out.println("\n" + p.getName()
+					+ ", you don't have enough volunteer hours or eligible areas for a Development right now.");
+			return;
+		}
+		System.out.print(
+				"\n" + p.getName() + "Would you like to carry out a development? If yes, enter y. If no, enter n: ");
+		String answer = scanner.next();
+		scanner.nextLine();
+		if (answer.equalsIgnoreCase("y")) {
+			System.out.println("\n--- 🏗️ DEVELOPMENT MENU ---");
+			System.out.println("Select an area to develop:");
+			for (int i = 0; i < eligibleAreas.size(); i++) {
+				Area currentArea = eligibleAreas.get(i);
+				Development dev = availableDevs.get(i);
+				System.out.println("\n" + (i + 1) + ". " + currentArea.getName());
+				System.out.println("  Development name: " + dev.getName());
+				System.out.println("  Cost: " + dev.getCost());
+				System.out.println("  Description: " + dev.getDescription());
+			}
+			System.out.println("Select the number that corresponds with the area you would like to develop: ");
+			int choice = scanner.nextInt();
+
+			if (choice > 0 && choice <= eligibleAreas.size()) {
+				Area selectedArea = eligibleAreas.get(choice - 1);
+				Development selectedDev = availableDevs.get(choice - 1);
+				p.setCurrency((p.getCurrency() - selectedDev.getCost()));
+				selectedDev.setOwner(p);
+				p.getDevelopments().add(selectedDev);
+				selectedArea.setMinorDevOwnedCounter(selectedArea.getMinorDevOwnedCounter() + 1);
+
+				System.out.println("🎉 Success! Development complete.");
+
+			}
+		}
 
 	}
-	
+
 	/**
 	 * show winner to screen
+	 * 
 	 * @param p
 	 */
 	public static void showWinnerScreen(Player p) {
@@ -545,15 +541,15 @@ public static final String RESET = "\033[0m";
 				""");
 
 	}
-	
+
 	/**
-	 * handle forfeit 
+	 * handle forfeit
+	 * 
 	 * @param p
 	 * @param players
 	 * @param board
 	 */
 	public static void handleForfeit(Player p, ArrayList<Player> players, Board board) {
-
 
 		ArrayList<Area> previousAreas = p.getOwnedAreas();
 
@@ -563,12 +559,12 @@ public static final String RESET = "\033[0m";
 			area.setMajorDevOwnedCounter(0);
 			area.setOwner(null);
 		}
-		
+
 		if (players.size() >= 1) {
 
 			System.out.println(p.getName() + " has forfeited the game. Their owned areas are now up for grabs!");
 			players.remove(p);
-			
+
 		} else if (players.size() == 1) {
 
 			Player winner = players.get(0);
@@ -647,27 +643,27 @@ public static final String RESET = "\033[0m";
 	 */
 	public static int diceRoll() {
 
-	    int dice1 = random.nextInt(7); // 0–6
-	    int dice2 = random.nextInt(7); // 0–6
+		int dice1 = random.nextInt(7); // 0–6
+		int dice2 = random.nextInt(7); // 0–6
 
-	    int totalMove = 0;
+		int totalMove = 0;
 
-	    if (dice1 == 0) {
-	        System.out.println("Dice 1 rolled Chance!");
-	    } else {
-	        totalMove += dice1;
-	    }
+		if (dice1 == 0) {
+			System.out.println("Dice 1 rolled Chance!");
+		} else {
+			totalMove += dice1;
+		}
 
-	    if (dice2 == 0) {
-	        System.out.println("Dice 2 rolled Chance!");
-	    } else {
-	        totalMove += dice2;
-	    }
+		if (dice2 == 0) {
+			System.out.println("Dice 2 rolled Chance!");
+		} else {
+			totalMove += dice2;
+		}
 
-	    System.out.println("Dice rolled: " + dice1 + " and " + dice2);
-	    System.out.println("You move forward " + totalMove + " spaces.");
+		System.out.println("Dice rolled: " + dice1 + " and " + dice2);
+		System.out.println("You move forward " + totalMove + " spaces.");
 
-	    return totalMove;
+		return totalMove;
 	}
 
 	/*
@@ -715,8 +711,10 @@ public static final String RESET = "\033[0m";
 			}
 		}
 	}
+
 	/**
-	 * get player name 
+	 * get player name
+	 * 
 	 * @return
 	 */
 	public static String getPlayerName() {
@@ -733,9 +731,10 @@ public static final String RESET = "\033[0m";
 		System.out.println("Player name recorded.");
 		return name;
 	}
-	
+
 	/**
-	 * display available game pieces 
+	 * display available game pieces
+	 * 
 	 * @param taken
 	 */
 	public static void displayAvailableGamePieces(boolean[] taken) {
@@ -745,9 +744,10 @@ public static final String RESET = "\033[0m";
 			System.out.println((i + 1) + ") " + EMOJI_GAME_PIECES[i] + status);
 		}
 	}
-	
+
 	/**
-	 * choose emoji token 
+	 * choose emoji token
+	 * 
 	 * @param taken
 	 * @return
 	 */
@@ -780,9 +780,10 @@ public static final String RESET = "\033[0m";
 			}
 		}
 	}
-	
+
 	/**
 	 * get charity for emoji
+	 * 
 	 * @param emoji
 	 * @return
 	 */
@@ -793,70 +794,78 @@ public static final String RESET = "\033[0m";
 				return CHARITIES[i];
 			}
 		}
-		return null; 
+		return null;
 	}
-	
+
+	/**
+	 * gets charity name which is linked to emoji
+	 * 
+	 * @param charity
+	 * @return
+	 */
 	public static String getCharityName(Charity charity) {
 
-	    if (charity.getIcon() == CharitySymbol.WAVE) {
-	        return "The Nature Conservancy";
-	    } else if (charity.getIcon() == CharitySymbol.ROSE) {
-	        return "WWF";
-	    } else if (charity.getIcon() == CharitySymbol.MOON) {
-	        return "Green Peace";
-	    } else if (charity.getIcon() == CharitySymbol.EARTH) {
-	        return "Friends of the Earth";
-	    }
+		if (charity.getIcon() == CharitySymbol.WAVE) {
+			return "The Nature Conservancy";
+		} else if (charity.getIcon() == CharitySymbol.ROSE) {
+			return "WWF";
+		} else if (charity.getIcon() == CharitySymbol.MOON) {
+			return "Green Peace";
+		} else if (charity.getIcon() == CharitySymbol.EARTH) {
+			return "Friends of the Earth";
+		}
 
-	    return "Unknown Charity";
+		return "Unknown Charity";
 	}
-	
+
 	/**
-	 * add player to the arraylist 
+	 * add player to the arraylist
+	 * 
 	 * @param n
 	 * @return
 	 */
 	public static ArrayList<Player> addPlayers(int n) {
 
-	    ArrayList<Player> players = new ArrayList<>();
-	    boolean[] taken = new boolean[EMOJI_GAME_PIECES.length];
+		ArrayList<Player> players = new ArrayList<>();
+		boolean[] taken = new boolean[EMOJI_GAME_PIECES.length];
 
-	    for (int i = 1; i <= n; i++) {
-	        System.out.println("\n--- Player " + i + " Setup ---");
+		for (int i = 1; i <= n; i++) {
+			System.out.println("\n--- Player " + i + " Setup ---");
 
-	        String name = getPlayerName();
-	        String emoji = chooseEmojiToken(taken);
-	        Charity charity = getCharityForEmoji(emoji);
+			String name = getPlayerName();
+			String emoji = chooseEmojiToken(taken);
+			Charity charity = getCharityForEmoji(emoji);
 
-	        Player player = new Player(name, charity, new ArrayList<>(), new ArrayList<>(), 1500);
+			Player player = new Player(name, charity, new ArrayList<>(), new ArrayList<>(), 1500);
 
-	        player.setPosition(1);
+			player.setPosition(1);
 
-	        players.add(player);
+			players.add(player);
 
-	        System.out.println("Player " + i + ": " + name + " " + emoji + " | Charity: " + charity);
-	    }
+			System.out.println("Player " + i + ": " + name + " " + emoji + " | Charity: " + charity);
+		}
 
-	    return players;
+		return players;
 	}
 
 	/**
-	 * display statistics 
+	 * display statistics
+	 * 
 	 * @param players
 	 */
 	public static void displayStats(ArrayList<Player> players) {
 
-	    System.out.println("\n=========== PLAYER STATS ===========");
+		System.out.println("\n=========== PLAYER STATS ===========");
 
-	    for (Player p : players) {
-	    		System.out.println("Name: " + p.getName() +" Charity: " + p.getCharity().getIcon() +" | Volunteering Hours: " 
-	    		+ p.getCurrency() +" | Position: " + p.getPosition()
-	        );
-	    }
+		for (Player p : players) {
+			System.out.println("Name: " + p.getName() + " Charity: " + p.getCharity().getIcon()
+					+ " | Volunteering Hours: " + p.getCurrency() + " | Position: " + p.getPosition());
+		}
 	}
-	
+
 	/**
-	 * check start status 
+	 * check start status
+	 * 
 	 * @param oldPos
 	 * @param newPos
 	 * @param p
@@ -864,56 +873,54 @@ public static final String RESET = "\033[0m";
 	public static void checkStartStatus(int oldPos, int newPos, Player p) {
 
 		if (newPos == ACTIVATION_INDEX) {
-			int newHours = p.getCurrency()+LAND_ACTIVATION_REWARD;
+			int newHours = p.getCurrency() + LAND_ACTIVATION_REWARD;
 			p.setCurrency(newHours);
-			System.out.println(p.getName() + " landed on Activation Zone and gained " 
-					+ LAND_ACTIVATION_REWARD + " volunteering hours.");
+			System.out.println(p.getName() + " landed on Activation Zone and gained " + LAND_ACTIVATION_REWARD
+					+ " volunteering hours.");
 		} else if (newPos < oldPos) {
-			int newHours = p.getCurrency()+PASS_ACTIVATION_REWARD;
+			int newHours = p.getCurrency() + PASS_ACTIVATION_REWARD;
 			p.setCurrency(newHours);
-			System.out.println(p.getName() + " passed Activation Zone and gained " 
-					+ PASS_ACTIVATION_REWARD + " volunteering hours.");
+			System.out.println(p.getName() + " passed Activation Zone and gained " + PASS_ACTIVATION_REWARD
+					+ " volunteering hours.");
 		}
 	}
 
-	/*
-	 * creates board
+	/**
+	 * creates squares on board
+	 * 
+	 * @return
 	 */
 
-	    public static ArrayList<Square> createBoard() {
+	public static ArrayList<Square> createBoard() {
 
-	        ArrayList<Square> board = new ArrayList<>();
+		ArrayList<Square> board = new ArrayList<>();
 
-	        board.add(new Square(null, 0, false, false, "The Activation Zone"));
-	        board.add(new Square(null, 1, true, false, "The Green Zone"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The North Pole"),
-	                2, false, false, "The North Pole"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Atlantic Ocean"),
-	                3, false, false, "The Atlantic Ocean"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Amazon Rainforest"),
-	                4, false, false, "The Amazon Rainforest"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Pacific Ocean"),
-	                5, false, false, "The Pacific Ocean"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "Delhi, India"),
-	                6, false, false, "Delhi, India"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Sumatran Rainforest"),
-	                7, false, false, "The Sumatran Rainforest"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The South Pole"),
-	                8, false, false, "The South Pole"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Indian Ocean"),
-	                9, false, false, "The Indian Ocean"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Congo Rainforest"),
-	                10, false, false, "The Congo Rainforest"));
-	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "Seoul, South Korea"),
-	                11, false, false, "Seoul, South Korea"));
+		board.add(new Square(null, 0, false, false, "The Activation Zone"));
+		board.add(new Square(null, 1, true, false, "The Green Zone"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The North Pole"), 2, false, false,
+				"The North Pole"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Atlantic Ocean"), 3, false, false,
+				"The Atlantic Ocean"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Amazon Rainforest"), 4, false, false,
+				"The Amazon Rainforest"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Pacific Ocean"), 5, false, false,
+				"The Pacific Ocean"));
+		board.add(
+				new Square(new Field(null, new ArrayList<>(), 0, 0, "Delhi, India"), 6, false, false, "Delhi, India"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Sumatran Rainforest"), 7, false, false,
+				"The Sumatran Rainforest"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The South Pole"), 8, false, false,
+				"The South Pole"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Indian Ocean"), 9, false, false,
+				"The Indian Ocean"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Congo Rainforest"), 10, false, false,
+				"The Congo Rainforest"));
+		board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "Seoul, South Korea"), 11, false, false,
+				"Seoul, South Korea"));
 
-	        return board;
-	    }
-	
-	
-	
-	
-	
+		return board;
+	}
+
 	/**
 	 * squares
 	 */
@@ -1451,7 +1458,5 @@ public static final String RESET = "\033[0m";
 					+ "                                       ▇▇                                       \n"
 					+ "                                       ▇▇                                       \n"
 					+ "                                                                                \n" + "" };
-
-
 
 }
