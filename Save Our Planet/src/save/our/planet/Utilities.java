@@ -22,7 +22,7 @@ public class Utilities {
 	/*
 	 * charity emojis
 	 */
-	private static final String[] EMOJI_GAME_PIECES = { "🌳", "🐼", "🍀", "🌍" };
+	private static final String[] EMOJI_GAME_PIECES = { "🌊", "🌷", "🌙", "🌍" };
 
 	static final Charity[] CHARITIES = {
 		    new Charity(CharitySymbol.WAVE, 0),
@@ -564,9 +564,6 @@ public static final String RESET = "\033[0m";
 			area.setOwner(null);
 		}
 		
-		
-		
-
 		if (players.size() >= 1) {
 
 			System.out.println(p.getName() + " has forfeited the game. Their owned areas are now up for grabs!");
@@ -582,8 +579,6 @@ public static final String RESET = "\033[0m";
 			showWinnerScreen(winner);
 		}
 	}
-
-
 
 	/*
 	 * displays game instructions
@@ -801,6 +796,21 @@ public static final String RESET = "\033[0m";
 		return null; 
 	}
 	
+	public static String getCharityName(Charity charity) {
+
+	    if (charity.getIcon() == CharitySymbol.WAVE) {
+	        return "The Nature Conservancy";
+	    } else if (charity.getIcon() == CharitySymbol.ROSE) {
+	        return "WWF";
+	    } else if (charity.getIcon() == CharitySymbol.MOON) {
+	        return "Green Peace";
+	    } else if (charity.getIcon() == CharitySymbol.EARTH) {
+	        return "Friends of the Earth";
+	    }
+
+	    return "Unknown Charity";
+	}
+	
 	/**
 	 * add player to the arraylist 
 	 * @param n
@@ -869,29 +879,37 @@ public static final String RESET = "\033[0m";
 	/*
 	 * creates board
 	 */
-	public static ArrayList<Square> createBoard() {
 
-		ArrayList<Square> board = new ArrayList<>();
+	    public static ArrayList<Square> createBoard() {
 
-		for (int i = 0; i < BOARD_SIZE; i++) {
+	        ArrayList<Square> board = new ArrayList<>();
 
-			String type;
+	        board.add(new Square(null, 0, false, false, "The Activation Zone"));
+	        board.add(new Square(null, 1, true, false, "The Green Zone"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The North Pole"),
+	                2, false, false, "The North Pole"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Atlantic Ocean"),
+	                3, false, false, "The Atlantic Ocean"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Amazon Rainforest"),
+	                4, false, false, "The Amazon Rainforest"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Pacific Ocean"),
+	                5, false, false, "The Pacific Ocean"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "Delhi, India"),
+	                6, false, false, "Delhi, India"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Sumatran Rainforest"),
+	                7, false, false, "The Sumatran Rainforest"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The South Pole"),
+	                8, false, false, "The South Pole"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Indian Ocean"),
+	                9, false, false, "The Indian Ocean"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "The Congo Rainforest"),
+	                10, false, false, "The Congo Rainforest"));
+	        board.add(new Square(new Field(null, new ArrayList<>(), 0, 0, "Seoul, South Korea"),
+	                11, false, false, "Seoul, South Korea"));
 
-			if (i == ACTIVATION_INDEX) {
-				type = ACTIVATION;
-			} else if (i == GREEN_INDEX) {
-				type = GREEN;
-			} else {
-				type = AREA;
-			}
-
-			Square square = new Square(type, i);
-			board.add(square);
-		}
-
-		return board;
-	}
-
+	        return board;
+	    }
+	
 	
 	
 	

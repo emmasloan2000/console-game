@@ -24,7 +24,8 @@ public class App {
 		ArrayList<Player> players = Utilities.addPlayers(numOfPlayers);
 		for (int i = 0; i < players.size(); i++) {
 			String playerName = Utilities.getPlayerName(); // Requirement: Input player names
-			Charity charity = Utilities.getCharitySelection(); // Requirement: Represents a charity
+			String emoji = Utilities.chooseEmojiToken(taken);
+			Charity charity = Utilities.getCharityForEmoji(emoji);
 			players.get(i).setName(playerName);
 			players.get(i).setCharity(charity);
 			players.get(i).setCurrency(1500); // Requirement: Starting balance of 1500 hours
@@ -42,7 +43,8 @@ public class App {
 
 			Player currentPlayer = players.get(currentPlayerCount);
 			System.out.println("\nIt is " + currentPlayer.getName() + "'s turn.");
-			Utilities.displayStats(currentPlayer);
+			Utilities.displayStats(players);
+			Utilities.askUserRoll();
 
 			Utilities.askUserRoll(); // Prompt: "press r to roll"
 			String response = sc.nextLine();
