@@ -14,24 +14,24 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 
 		// --- GAME INITIALIZATION ---
-		ArrayList<Square> squares = Utilities.createBoard();
+		ArrayList<Square> squares = UtilitiesTest.createBoard();
 		Board gameBoard = new Board(squares, 0, 0, 0, 0);
 
-		Utilities.colourSettings(sc); // Requirement: Choice of colour palette
-		int numOfPlayers = Utilities.chooseNumOfPlayers(); // Requirement: 2-4 players
+		UtilitiesTest.colourSettings(sc); // Requirement: Choice of colour palette
+		int numOfPlayers = UtilitiesTest.chooseNumOfPlayers(); // Requirement: 2-4 players
 		sc.nextLine(); // Flush the scanner buffer
 
-		ArrayList<Player> players = Utilities.addPlayers(numOfPlayers);
+		ArrayList<Player> players = UtilitiesTest.addPlayers(numOfPlayers);
 		for (int i = 0; i < players.size(); i++) {
-			String playerName = Utilities.getPlayerName(); // Requirement: Input player names
-			Charity charity = Utilities.getCharitySelection(); // Requirement: Represents a charity
+			String playerName = UtilitiesTest.getPlayerName(); // Requirement: Input player names
+			Charity charity = UtilitiesTest.getCharitySelection(); // Requirement: Represents a charity
 			players.get(i).setName(playerName);
 			players.get(i).setCharity(charity);
 			players.get(i).setCurrency(1500); // Requirement: Starting balance of 1500 hours
 		}
 
-		Utilities.displayStats(players); // Show initial status and balances
-		Utilities.displayInstructions(); // Requirement: Show aim and rules
+		UtilitiesTest.displayStats(players); // Show initial status and balances
+		UtilitiesTest.displayInstructions(); // Requirement: Show aim and rules
 
 		int currentPlayerCount = 0;
 		Player winner = null;
@@ -42,15 +42,15 @@ public class App {
 
 			Player currentPlayer = players.get(currentPlayerCount);
 			System.out.println("\nIt is " + currentPlayer.getName() + "'s turn.");
-			Utilities.displayStats(currentPlayer);
+			UtilitiesTest.displayStats(currentPlayer);
 
-			Utilities.askUserRoll(); // Prompt: "press r to roll"
+			UtilitiesTest.askUserRoll(); // Prompt: "press r to roll"
 			String response = sc.nextLine();
 
 			if (response.equalsIgnoreCase("r")) {
 				// 1. DICE ROLL & CHANCE LOGIC
-				int dice1 = Utilities.diceRoll();
-				int dice2 = Utilities.diceRoll();
+				int dice1 = UtilitiesTest.diceRoll();
+				int dice2 = UtilitiesTest.diceRoll();
 				int totalRoll = 0;
 
 				// Check Dice 1: Number vs. Chance Symbol
@@ -73,29 +73,29 @@ public class App {
 					int newPosition = gameBoard.findNewPosition(oldPosition, totalRoll);
 
 					// Requirement: Receive donations for passing/landing on start
-					Utilities.checkStartStatus(oldPosition, newPosition, currentPlayer);
+					UtilitiesTest.checkStartStatus(oldPosition, newPosition, currentPlayer);
 
 					gameBoard.addPlayerToSquare(currentPlayer, newPosition);
 					currentPlayer.getCharity().setLocation(newPosition);
 					Square currentSquare = gameBoard.findPlayerSquare(newPosition);
-					Utilities.showBoard(newPosition, currentPlayer);// prints correspodning board image and text of
+					UtilitiesTest.showBoard(newPosition, currentPlayer);// prints correspodning board image and text of
 																	// where current player is
 
 					// 3. LANDING ACTIONS
 					if (currentSquare.isBlank() == true) { // Green Zone logic
-						Utilities.showBlankMessage(currentPlayer);
+						UtilitiesTest.showBlankMessage(currentPlayer);
 					} else if (currentSquare.isOwned() == true) {
 						if (currentSquare.checkIfOwner(currentPlayer) == true) {
-							Utilities.showLandedOnOwnSquareMessage(currentPlayer);
+							UtilitiesTest.showLandedOnOwnSquareMessage(currentPlayer);
 						} else {
-							Utilities.payRent(currentPlayer, currentSquare); // 10% volunteer hours
+							UtilitiesTest.payRent(currentPlayer, currentSquare); // 10% volunteer hours
 						}
 					} else if (currentSquare.isOwned() == false) {
 						if (currentPlayer.hasFunds((Area) currentSquare) == true) {
 							// Opportunity to buy or auction
-							Utilities.offerOwnership(currentPlayer, currentSquare);
+							UtilitiesTest.offerOwnership(currentPlayer, currentSquare);
 							if (currentSquare.isOwned() == false) {
-								Utilities.auctionOff(currentPlayer, currentSquare, players, sc);
+								UtilitiesTest.auctionOff(currentPlayer, currentSquare, players, sc);
 							}
 						}
 					}
@@ -113,11 +113,11 @@ public class App {
 
 					if (!fieldsWithAllDevelopments.isEmpty()) {
 
-						Utilities.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments, sc); //
+						UtilitiesTest.askToBuyMajorDevelopment(currentPlayer, fieldsWithAllDevelopments, sc); //
 
 					} else {
 
-						Utilities.askToBuyDevelopment(currentPlayer, fullFields, sc); //
+						UtilitiesTest.askToBuyDevelopment(currentPlayer, fullFields, sc); //
 
 					}
 
@@ -125,7 +125,7 @@ public class App {
 					if (currentPlayer.ownsAllAMajorDevelopments(fullFields) == true) {
 						gameOn = false;
 						winner = currentPlayer;
-						Utilities.showWinnerScreen(winner);
+						UtilitiesTest.showWinnerScreen(winner);
 						break;
 					}
 
@@ -137,13 +137,13 @@ public class App {
 					}
 
 				} else if (response.equalsIgnoreCase("f")) {
-					Utilities.handleForfeit(currentPlayer, players, gameBoard);
+					UtilitiesTest.handleForfeit(currentPlayer, players, gameBoard);
 				} else if (response.equalsIgnoreCase("p")) {
-					Utilities.displayStats(players);
+					UtilitiesTest.displayStats(players);
 					System.out.println("game paused, enter any key to resume");
 					String holder = sc.next();
 				} else if (response.equalsIgnoreCase("i")) {
-					Utilities.displayInstructions();
+					UtilitiesTest.displayInstructions();
 					System.out.println("game paused, enter any key to resume");
 					String holder = sc.next();
 				} else {
