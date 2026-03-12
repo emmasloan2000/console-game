@@ -29,12 +29,7 @@ public class Utilities {
 
 	private static final int PASS_ACTIVATION_REWARD = 200;
 	private static final int LAND_ACTIVATION_REWARD = 500;
-	private static final int BOARD_SIZE = 12;
 	private static final int ACTIVATION_INDEX = 0;
-	private static final int GREEN_INDEX = 1;
-	private static final String AREA = "AREA";
-	private static final String GREEN = "GREEN";
-	private static final String ACTIVATION = "ACTIVATION";
 
 	public static final String RESET = "\033[0m";
 
