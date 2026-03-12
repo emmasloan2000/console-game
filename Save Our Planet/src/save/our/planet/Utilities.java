@@ -691,6 +691,7 @@ public class Utilities {
 	/*
 	 * asks user to roll dice
 	 */
+	// move how many spaces
 	public static void askUserRoll() {
 
 		String roll;
